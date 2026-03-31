@@ -1,20 +1,6 @@
-# 🔐 Authentication API Documentation
+# 🔐 Auth API Endpoints
 
-Dokumentasi ini menjelaskan fitur autentikasi pada backend menggunakan **NestJS + Prisma + PostgreSQL + JWT**
-
----
-
-## 🚀 Tech Stack
-
-* **Backend**: NestJS
-* **Database**: PostgreSQL
-* **ORM**: Prisma
-* **Authentication**: JWT (JSON Web Token)
-* **Validation**: class-validator
-
----
-
-## 📌 Base URL
+Base URL:
 
 ```
 http://localhost:3000
@@ -22,21 +8,11 @@ http://localhost:3000
 
 ---
 
-# 🔑 AUTH ENDPOINTS
+## 📝 Register
 
----
+**POST** `/auth/register`
 
-## 📝 1. Register
-
-Mendaftarkan user baru
-
-### 📍 Endpoint
-
-```
-POST /auth/register
-```
-
-### 📥 Request Body
+### Body:
 
 ```json
 {
@@ -46,7 +22,7 @@ POST /auth/register
 }
 ```
 
-### 📤 Response
+### Response:
 
 ```json
 {
@@ -62,17 +38,11 @@ POST /auth/register
 
 ---
 
-## 🔐 2. Login
+## 🔐 Login
 
-Login untuk mendapatkan JWT token
+**POST** `/auth/login`
 
-### 📍 Endpoint
-
-```
-POST /auth/login
-```
-
-### 📥 Request Body
+### Body:
 
 ```json
 {
@@ -81,7 +51,7 @@ POST /auth/login
 }
 ```
 
-### 📤 Response
+### Response:
 
 ```json
 {
@@ -91,23 +61,17 @@ POST /auth/login
 
 ---
 
-## 🔒 3. Get Profile (Protected)
+## 🙋‍♂️ Get Profile
 
-Mengambil data user yang sedang login
+**GET** `/auth/me`
 
-### 📍 Endpoint
-
-```
-GET /auth/me
-```
-
-### 📥 Headers
+### Headers:
 
 ```
 Authorization: Bearer <token>
 ```
 
-### 📤 Response
+### Response:
 
 ```json
 {
@@ -120,23 +84,17 @@ Authorization: Bearer <token>
 
 ---
 
-## ✏️ 4. Update Profile (Protected)
+## ✏️ Update Profile
 
-Mengupdate data user
+**PATCH** `/auth/update`
 
-### 📍 Endpoint
-
-```
-PATCH /auth/update
-```
-
-### 📥 Headers
+### Headers:
 
 ```
 Authorization: Bearer <token>
 ```
 
-### 📥 Request Body
+### Body:
 
 ```json
 {
@@ -146,7 +104,7 @@ Authorization: Bearer <token>
 }
 ```
 
-### 📤 Response
+### Response:
 
 ```json
 {
@@ -159,67 +117,16 @@ Authorization: Bearer <token>
 
 ---
 
-# 🔐 Authentication Flow
+## ⚠️ Notes
 
-1. User register akun
-2. User login → mendapatkan JWT token
-3. Token digunakan untuk akses endpoint protected
-4. Backend memverifikasi token menggunakan JWT Strategy
-
----
-
-# ⚠️ Important Notes
-
-* Gunakan header:
+* Semua endpoint selain register & login membutuhkan token
+* Gunakan format header:
 
 ```
 Authorization: Bearer <token>
 ```
 
-* Password disimpan dalam bentuk hash (bcrypt)
-* Role default adalah `USER`
-* User tidak bisa menentukan role saat register (untuk keamanan)
-
----
-
-# 🛡️ Security
-
-* JWT digunakan untuk autentikasi
-* Password di-hash menggunakan bcrypt
-* Endpoint protected menggunakan JWT Guard
-
----
-
-# 📂 Struktur Folder (Auth)
-
-```
-auth/
-├── dto/
-│   ├── register.dto.ts
-│   ├── login.dto.ts
-│   ├── update-user.dto.ts
-│
-├── auth.controller.ts
-├── auth.service.ts
-├── auth.module.ts
-├── jwt.strategy.ts
-├── jwt-auth.guard.ts
-```
-
----
-
-# 🧪 Testing
-
-Gunakan tools seperti:
-
-* Postman
-* API Dog
-* Insomnia
-
----
-
-# 👨‍💻 Author
-
-Project ini dibuat untuk keperluan pembelajaran & pengembangan sistem booking wisata 🚀
+* Password disimpan dalam bentuk hash
+* Role default: `USER`
 
 ---
