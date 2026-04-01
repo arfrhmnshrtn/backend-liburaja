@@ -31,7 +31,6 @@ export class PackagesService {
   async findAll() {
     // return `This action returns all packages`;
     const data = await new PrismaService().package.findMany();
-    // console.log(data);
     return {
       success: true,
       message: 'Berhasil mengambil data paket',
