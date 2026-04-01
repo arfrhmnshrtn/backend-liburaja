@@ -2,6 +2,7 @@ import {
   Injectable,
   BadRequestException,
   UnauthorizedException,
+  HttpStatus,
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import * as bcrypt from 'bcrypt';
@@ -12,6 +13,16 @@ import { UpdateUserDto } from './dto/update.user.dto';
 
 @Injectable()
 export class AuthService {
+  getAllUser() {
+    return this.prisma.user.findMany().then((data) => {
+      return {
+        success: true,
+        message: 'Get all user berhasil',
+        metadata: { status: HttpStatus.OK, count: data.length },
+        data,
+      };
+    });
+  }
   constructor(
     private prisma: PrismaService,
     private jwtService: JwtService,
