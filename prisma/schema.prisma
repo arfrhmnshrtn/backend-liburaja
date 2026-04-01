@@ -46,6 +46,7 @@ model Booking {
   userId      Int
   packageId   Int
   date        DateTime
+  quantity    Int
   totalPrice  Int
   status      BookingStatus  @default(PENDING)
   createdAt   DateTime       @default(now())
