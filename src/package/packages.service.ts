@@ -59,8 +59,54 @@ export class PackagesService {
     };
   }
 
-  update(id: number, updatePackageDto: UpdatePackageDto) {
-    return `This action updates a #${id} package`;
+  async update(id: number, updatePackageDto: UpdatePackageDto) {
+    // return `This action updates a #${id} package`;
+
+    try {
+      const existingPackage = await new PrismaService().package.findUnique({
+        where: { id },
+      });
+
+      if (!existingPackage) {
+        throw new NotFoundException({
+          success: false,
+          message: 'Paket tidak ditemukan',
+          metadata: {
+            status: HttpStatus.NOT_FOUND,
+          },
+        });
+      }
+      await new PrismaService().package.update({
+        where: { id },
+        data: {
+          name: updatePackageDto.name,
+          description: updatePackageDto.description,
+          price: updatePackageDto.price,
+          location: updatePackageDto.location,
+          image: updatePackageDto.image,
+        },
+      });
+
+      return {
+        success: true,
+        message: 'Paket berhasil diupdate',
+        metadata: {
+          status: HttpStatus.OK,
+        },
+        data: existingPackage,
+      };
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
+      throw new BadRequestException({
+        success: false,
+        message: 'parameter id tidak valid',
+        metadata: {
+          status: HttpStatus.BAD_REQUEST,
+        },
+      });
+    }
   }
 
   async remove(id: number) {
