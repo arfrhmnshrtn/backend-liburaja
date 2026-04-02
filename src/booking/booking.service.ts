@@ -39,14 +39,13 @@ export class BookingService {
     });
 
     // 🔥 PANGGIL MIDTRANS (INI YANG KURANG)
-    const transaction = await this.midtransService.createTransaction(
-      `ORDER-${booking.id}`,
-      totalPrice,
-      {
-        first_name: 'User',
-        email: 'user@mail.com',
-      },
-    );
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const transaction: { token: string; redirect_url: string } =
+      await this.midtransService.createTransaction(
+        `ORDER-${booking.id}`,
+        totalPrice,
+        `Paket ${paket.name}`,
+      );
 
     return {
       success: true,
@@ -71,27 +70,31 @@ export class BookingService {
   }
 
   async remove(id: number) {
-    // return `This action removes a #${id} booking`;
-    try {
-      const data = await this.prisma.booking.delete({
-        where: { id },
-      });
+    // 🔹 cek dulu booking
+    const booking = await this.prisma.booking.findUnique({
+      where: { id },
+    });
 
-      if (data.status == 'PENDING') {
-        return {
-          success: true,
-          message: 'Booking berhasil dihapus',
-          data,
-        };
-      }
-
-      return {
-        success: false,
-        message: 'Booking gagal dihapus',
-        data,
-      };
-    } catch (error) {
+    if (!booking) {
       throw new NotFoundException('Booking tidak ditemukan');
     }
+
+    // 🔹 hanya boleh hapus jika masih PENDING
+    if (booking.status !== 'PENDING') {
+      return {
+        success: false,
+        message: 'Booking tidak bisa dihapus karena sudah dibayar',
+      };
+    }
+
+    // 🔹 baru delete
+    await this.prisma.booking.delete({
+      where: { id },
+    });
+
+    return {
+      success: true,
+      message: 'Booking berhasil dihapus',
+    };
   }
 }

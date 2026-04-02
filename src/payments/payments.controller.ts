@@ -10,22 +10,50 @@ import {
 import { PaymentsService } from './payments.service';
 import { CreatePaymentDto } from './dto/create-payment.dto';
 import { UpdatePaymentDto } from './dto/update-payment.dto';
+import { PrismaService } from 'src/prisma.service';
+
+interface MidtransWebhookPayload {
+  order_id: string;
+  status: string;
+  [key: string]: any;
+}
 
 @Controller('payments')
 export class PaymentsController {
-  constructor(private readonly paymentsService: PaymentsService) {}
+  constructor(
+    private readonly paymentsService: PaymentsService,
+    private prisma: PrismaService,
+  ) {}
 
   @Post('midtrans/webhook')
-  async handleWebhook(@Body() body: CreatePaymentDto) {
+  async handleWebhook(@Body() body: MidtransWebhookPayload) {
     // const orderId = body.orderId;
-    const bookingId = body.bookingId;
-    const transactionStatus = body.status;
+    console.log('webhook received:');
+    const bookingId = parseInt(body.order_id.split('-')[1], 10);
+    // const transactionStatus = body.status;
+    const status = body.transaction_status as string;
+    const fraud = body.fraud_status as string;
+
+    console.log('Webhook Payload:', body);
+
+    console.log('Booking ID:', bookingId);
+    // console.log('Transaction Status:', transactionStatus);
 
     // const bookingId = parseInt(orderId.split('-')[1]);
 
-    if (transactionStatus === 'settlement') {
-      this.paymentsService.update(bookingId, {
-        status: 'PAID',
+    if (status === 'capture') {
+      if (fraud === 'accept') {
+        await this.prisma.booking.update({
+          where: { id: bookingId },
+          data: { status: 'PAID' },
+        });
+      }
+    }
+
+    if (status === 'settlement') {
+      await this.prisma.booking.update({
+        where: { id: bookingId },
+        data: { status: 'PAID' },
       });
     }
 
