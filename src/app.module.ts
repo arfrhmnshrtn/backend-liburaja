@@ -8,7 +8,13 @@ import { BookingModule } from './booking/booking.module';
 import { PaymentsModule } from './payments/payments.module';
 
 @Module({
-  imports: [AuthModule, PrismaModule, PackagesModule, BookingModule, PaymentsModule],
+  imports: [
+    AuthModule,
+    PrismaModule,
+    PackagesModule,
+    BookingModule,
+    PaymentsModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

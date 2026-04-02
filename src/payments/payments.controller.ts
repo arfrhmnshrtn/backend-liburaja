@@ -21,12 +21,10 @@ export class PaymentsController {
     const bookingId = body.bookingId;
     const transactionStatus = body.status;
 
-    console.log(transactionStatus);
-
     // const bookingId = parseInt(orderId.split('-')[1]);
 
     if (transactionStatus === 'settlement') {
-      await this.paymentsService.update(bookingId, {
+      this.paymentsService.update(bookingId, {
         status: 'PAID',
       });
     }
