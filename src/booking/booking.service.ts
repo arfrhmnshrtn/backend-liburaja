@@ -13,7 +13,12 @@ export class BookingService {
     private midtransService: MidtransService,
   ) {}
 
-  async create(userId: number, createBookingDto: CreateBookingDto) {
+  async create(
+    userId: number,
+    name: string,
+    email: string,
+    createBookingDto: CreateBookingDto,
+  ) {
     // 🔹 ambil data package
     const paket = await this.prisma.package.findUnique({
       where: { id: createBookingDto.packageId },
@@ -38,13 +43,16 @@ export class BookingService {
       },
     });
 
-    // 🔥 PANGGIL MIDTRANS (INI YANG KURANG)
+    // PANGGIL MIDTRANS
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const transaction: { token: string; redirect_url: string } =
       await this.midtransService.createTransaction(
         `ORDER-${booking.id}`,
         totalPrice,
-        `Paket ${paket.name}`,
+        {
+          name: name,
+          email: email,
+        },
       );
 
     return {
@@ -62,7 +70,9 @@ export class BookingService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} booking`;
+    return this.prisma.booking.findUnique({
+      where: { id },
+    });
   }
 
   update(id: number, updateBookingDto: UpdateBookingDto) {

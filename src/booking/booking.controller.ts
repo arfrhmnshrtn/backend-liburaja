@@ -23,10 +23,17 @@ export class BookingController {
   create(
     @Req() req,
     userId: number,
+    name: string,
+    email: string,
     @Body()
     createBookingDto: CreateBookingDto,
   ) {
-    return this.bookingService.create(req.user.sub, createBookingDto);
+    return this.bookingService.create(
+      req.user.sub,
+      email,
+      name,
+      createBookingDto,
+    );
   }
 
   @Get()

@@ -41,6 +41,8 @@ export class PaymentsController {
 
     // const bookingId = parseInt(orderId.split('-')[1]);
 
+    // console.log()
+
     if (status === 'capture') {
       if (fraud === 'accept') {
         await this.prisma.booking.update({
