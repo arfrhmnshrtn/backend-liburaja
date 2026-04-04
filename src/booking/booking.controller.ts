@@ -23,17 +23,10 @@ export class BookingController {
   create(
     @Req() req,
     userId: number,
-    name: string,
-    email: string,
     @Body()
     createBookingDto: CreateBookingDto,
   ) {
-    return this.bookingService.create(
-      req.user.sub,
-      email,
-      name,
-      createBookingDto,
-    );
+    return this.bookingService.create(req.user.sub, createBookingDto);
   }
 
   @Get()
@@ -41,15 +34,21 @@ export class BookingController {
     return this.bookingService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.bookingService.findOne(+id);
+  // @Get(':id')
+  // findOne(@Param('id') id: string) {
+  //   return this.bookingService.findOne(+id);
+  // }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('me')
+  findMyBookings(@Req() req) {
+    return this.bookingService.findByUser(req.user.sub);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBookingDto: UpdateBookingDto) {
-    return this.bookingService.update(+id, updateBookingDto);
-  }
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updateBookingDto: UpdateBookingDto) {
+  //   return this.bookingService.update(+id, updateBookingDto);
+  // }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
