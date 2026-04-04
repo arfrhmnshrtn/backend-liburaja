@@ -27,6 +27,7 @@ model User {
   createdAt DateTime @default(now())
 
   bookings  Booking[]
+  bookmarks Bookmark[]
 }
 
 model Package {
@@ -39,6 +40,7 @@ model Package {
   createdAt   DateTime @default(now())
 
   bookings    Booking[]
+  bookmarks   Bookmark[]
 }
 
 model Booking {
@@ -64,6 +66,18 @@ model Payment {
   createdAt   DateTime       @default(now())
 
   booking     Booking @relation(fields: [bookingId], references: [id])
+}
+
+model Bookmark {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  packageId Int
+  createdAt DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id])
+  package Package @relation(fields: [packageId], references: [id])
+
+  @@unique([userId, packageId]) // 🔥 biar tidak double bookmark
 }
 
 // enum Role {
