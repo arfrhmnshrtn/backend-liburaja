@@ -35,7 +35,7 @@ export class AuthController {
     return this.authService.update(req.user.sub, body);
   }
 
-  @Get('getAllUser')
+  @Get('users')
   getAllUser() {
     return this.authService.getAllUser();
   }
