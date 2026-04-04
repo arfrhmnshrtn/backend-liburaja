@@ -6,6 +6,7 @@ import { PrismaModule } from './prisma.module';
 import { PackagesModule } from './package/packages.module';
 import { BookingModule } from './booking/booking.module';
 import { PaymentsModule } from './payments/payments.module';
+import { BookmarksModule } from './bookmarks/bookmarks.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { PaymentsModule } from './payments/payments.module';
     PackagesModule,
     BookingModule,
     PaymentsModule,
+    BookmarksModule,
   ],
   controllers: [AppController],
   providers: [AppService],
