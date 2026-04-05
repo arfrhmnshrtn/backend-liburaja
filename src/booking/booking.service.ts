@@ -5,7 +5,11 @@ import { UpdateBookingDto } from './dto/update-booking.dto';
 import { PrismaService } from '../prisma.service';
 import { NotFoundException } from '@nestjs/common/exceptions/not-found.exception';
 import { MidtransService } from '../midtrans/midtrans.service';
+<<<<<<< HEAD
 import { nanoid } from 'nanoid';
+=======
+import { metadata } from 'reflect-metadata/no-conflict';
+>>>>>>> booking
 
 @Injectable()
 export class BookingService {
@@ -16,8 +20,8 @@ export class BookingService {
 
   async create(
     userId: number,
-    name: string,
-    email: string,
+    // name: string,
+    // email: string,
     createBookingDto: CreateBookingDto,
   ) {
     // 🔹 ambil data package
@@ -53,10 +57,7 @@ export class BookingService {
       await this.midtransService.createTransaction(
         `ORDER-${booking.id}`,
         totalPrice,
-        {
-          name: name,
-          email: email,
-        },
+        paket.name,
       );
 
     return {
@@ -68,20 +69,26 @@ export class BookingService {
     };
   }
 
-  findAll() {
+  async findAll() {
     // return `This action returns all booking`;
-    return this.prisma.booking.findMany();
+    const bookings = await this.prisma.booking.findMany();
+    return {
+      success: true,
+      message: 'Data booking berhasil ditemukan',
+      metadata: { status: HttpStatus.OK, count: bookings.length },
+      data: bookings,
+    };
   }
 
-  findOne(id: number) {
-    return this.prisma.booking.findUnique({
-      where: { id },
-    });
-  }
+  // findOne(id: number) {
+  //   return this.prisma.booking.findUnique({
+  //     where: { id },
+  //   });
+  // }
 
-  update(id: number, updateBookingDto: UpdateBookingDto) {
-    return `This action updates a #${id} booking`;
-  }
+  // update(id: number, updateBookingDto: UpdateBookingDto) {
+  //   return `This action updates a #${id} booking`;
+  // }
 
   async remove(id: number) {
     // 🔹 cek dulu booking
@@ -109,6 +116,24 @@ export class BookingService {
     return {
       success: true,
       message: 'Booking berhasil dihapus',
+    };
+  }
+
+  async findByUser(userId: number) {
+    const data = await this.prisma.booking.findMany({
+      where: { userId },
+      include: {
+        package: true,
+      },
+    });
+
+    return {
+      success: true,
+      message: 'Berhasil mengambil riwayat booking',
+      metadata: {
+        count: data.length,
+      },
+      data,
     };
   }
 }
