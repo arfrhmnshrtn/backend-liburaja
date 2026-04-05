@@ -5,6 +5,7 @@ import { UpdateBookingDto } from './dto/update-booking.dto';
 import { PrismaService } from '../prisma.service';
 import { NotFoundException } from '@nestjs/common/exceptions/not-found.exception';
 import { MidtransService } from '../midtrans/midtrans.service';
+import { nanoid } from 'nanoid';
 
 @Injectable()
 export class BookingService {
@@ -31,10 +32,13 @@ export class BookingService {
     // 🔹 hitung total harga
     const totalPrice = paket.price * createBookingDto.quantity;
 
+    const bookingCode = `TRX-${nanoid(4).toUpperCase()}`;
+
     // 🔹 simpan booking
     const booking = await this.prisma.booking.create({
       data: {
-        userId,
+        bookingCode: bookingCode,
+        userId: userId,
         packageId: createBookingDto.packageId,
         date: new Date(createBookingDto.date),
         quantity: createBookingDto.quantity,

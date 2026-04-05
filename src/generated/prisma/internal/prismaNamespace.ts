@@ -845,6 +845,7 @@ export type PackageScalarFieldEnum = (typeof PackageScalarFieldEnum)[keyof typeo
 export const BookingScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
+  bookingCode: 'bookingCode',
   packageId: 'packageId',
   date: 'date',
   quantity: 'quantity',

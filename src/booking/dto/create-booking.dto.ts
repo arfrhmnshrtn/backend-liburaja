@@ -1,4 +1,5 @@
 export class CreateBookingDto {
+  bookingCode: string;
   userId: number;
   packageId: number;
   date: Date;

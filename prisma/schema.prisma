@@ -46,6 +46,7 @@ model Package {
 model Booking {
   id          Int            @id @default(autoincrement())
   userId      Int
+  bookingCode String?         @unique
   packageId   Int
   date        DateTime
   quantity    Int

@@ -45,6 +45,7 @@ export type BookingSumAggregateOutputType = {
 export type BookingMinAggregateOutputType = {
   id: number | null
   userId: number | null
+  bookingCode: string | null
   packageId: number | null
   date: Date | null
   quantity: number | null
@@ -56,6 +57,7 @@ export type BookingMinAggregateOutputType = {
 export type BookingMaxAggregateOutputType = {
   id: number | null
   userId: number | null
+  bookingCode: string | null
   packageId: number | null
   date: Date | null
   quantity: number | null
@@ -67,6 +69,7 @@ export type BookingMaxAggregateOutputType = {
 export type BookingCountAggregateOutputType = {
   id: number
   userId: number
+  bookingCode: number
   packageId: number
   date: number
   quantity: number
@@ -96,6 +99,7 @@ export type BookingSumAggregateInputType = {
 export type BookingMinAggregateInputType = {
   id?: true
   userId?: true
+  bookingCode?: true
   packageId?: true
   date?: true
   quantity?: true
@@ -107,6 +111,7 @@ export type BookingMinAggregateInputType = {
 export type BookingMaxAggregateInputType = {
   id?: true
   userId?: true
+  bookingCode?: true
   packageId?: true
   date?: true
   quantity?: true
@@ -118,6 +123,7 @@ export type BookingMaxAggregateInputType = {
 export type BookingCountAggregateInputType = {
   id?: true
   userId?: true
+  bookingCode?: true
   packageId?: true
   date?: true
   quantity?: true
@@ -216,6 +222,7 @@ export type BookingGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
 export type BookingGroupByOutputType = {
   id: number
   userId: number
+  bookingCode: string
   packageId: number
   date: Date
   quantity: number
@@ -250,6 +257,7 @@ export type BookingWhereInput = {
   NOT?: Prisma.BookingWhereInput | Prisma.BookingWhereInput[]
   id?: Prisma.IntFilter<"Booking"> | number
   userId?: Prisma.IntFilter<"Booking"> | number
+  bookingCode?: Prisma.StringFilter<"Booking"> | string
   packageId?: Prisma.IntFilter<"Booking"> | number
   date?: Prisma.DateTimeFilter<"Booking"> | Date | string
   quantity?: Prisma.IntFilter<"Booking"> | number
@@ -264,6 +272,7 @@ export type BookingWhereInput = {
 export type BookingOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  bookingCode?: Prisma.SortOrder
   packageId?: Prisma.SortOrder
   date?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
@@ -277,6 +286,7 @@ export type BookingOrderByWithRelationInput = {
 
 export type BookingWhereUniqueInput = Prisma.AtLeast<{
   id?: number
+  bookingCode?: string
   AND?: Prisma.BookingWhereInput | Prisma.BookingWhereInput[]
   OR?: Prisma.BookingWhereInput[]
   NOT?: Prisma.BookingWhereInput | Prisma.BookingWhereInput[]
@@ -290,11 +300,12 @@ export type BookingWhereUniqueInput = Prisma.AtLeast<{
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   package?: Prisma.XOR<Prisma.PackageScalarRelationFilter, Prisma.PackageWhereInput>
   payment?: Prisma.XOR<Prisma.PaymentNullableScalarRelationFilter, Prisma.PaymentWhereInput> | null
-}, "id">
+}, "id" | "bookingCode">
 
 export type BookingOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  bookingCode?: Prisma.SortOrder
   packageId?: Prisma.SortOrder
   date?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
@@ -314,6 +325,7 @@ export type BookingScalarWhereWithAggregatesInput = {
   NOT?: Prisma.BookingScalarWhereWithAggregatesInput | Prisma.BookingScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"Booking"> | number
   userId?: Prisma.IntWithAggregatesFilter<"Booking"> | number
+  bookingCode?: Prisma.StringWithAggregatesFilter<"Booking"> | string
   packageId?: Prisma.IntWithAggregatesFilter<"Booking"> | number
   date?: Prisma.DateTimeWithAggregatesFilter<"Booking"> | Date | string
   quantity?: Prisma.IntWithAggregatesFilter<"Booking"> | number
@@ -323,6 +335,7 @@ export type BookingScalarWhereWithAggregatesInput = {
 }
 
 export type BookingCreateInput = {
+  bookingCode: string
   date: Date | string
   quantity: number
   totalPrice: number
@@ -336,6 +349,7 @@ export type BookingCreateInput = {
 export type BookingUncheckedCreateInput = {
   id?: number
   userId: number
+  bookingCode: string
   packageId: number
   date: Date | string
   quantity: number
@@ -346,6 +360,7 @@ export type BookingUncheckedCreateInput = {
 }
 
 export type BookingUpdateInput = {
+  bookingCode?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   totalPrice?: Prisma.IntFieldUpdateOperationsInput | number
@@ -359,6 +374,7 @@ export type BookingUpdateInput = {
 export type BookingUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   userId?: Prisma.IntFieldUpdateOperationsInput | number
+  bookingCode?: Prisma.StringFieldUpdateOperationsInput | string
   packageId?: Prisma.IntFieldUpdateOperationsInput | number
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
@@ -371,6 +387,7 @@ export type BookingUncheckedUpdateInput = {
 export type BookingCreateManyInput = {
   id?: number
   userId: number
+  bookingCode: string
   packageId: number
   date: Date | string
   quantity: number
@@ -380,6 +397,7 @@ export type BookingCreateManyInput = {
 }
 
 export type BookingUpdateManyMutationInput = {
+  bookingCode?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   totalPrice?: Prisma.IntFieldUpdateOperationsInput | number
@@ -390,6 +408,7 @@ export type BookingUpdateManyMutationInput = {
 export type BookingUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   userId?: Prisma.IntFieldUpdateOperationsInput | number
+  bookingCode?: Prisma.StringFieldUpdateOperationsInput | string
   packageId?: Prisma.IntFieldUpdateOperationsInput | number
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
@@ -411,6 +430,7 @@ export type BookingOrderByRelationAggregateInput = {
 export type BookingCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  bookingCode?: Prisma.SortOrder
   packageId?: Prisma.SortOrder
   date?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
@@ -430,6 +450,7 @@ export type BookingAvgOrderByAggregateInput = {
 export type BookingMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  bookingCode?: Prisma.SortOrder
   packageId?: Prisma.SortOrder
   date?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
@@ -441,6 +462,7 @@ export type BookingMaxOrderByAggregateInput = {
 export type BookingMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
+  bookingCode?: Prisma.SortOrder
   packageId?: Prisma.SortOrder
   date?: Prisma.SortOrder
   quantity?: Prisma.SortOrder
@@ -565,6 +587,7 @@ export type BookingUpdateOneRequiredWithoutPaymentNestedInput = {
 }
 
 export type BookingCreateWithoutUserInput = {
+  bookingCode: string
   date: Date | string
   quantity: number
   totalPrice: number
@@ -576,6 +599,7 @@ export type BookingCreateWithoutUserInput = {
 
 export type BookingUncheckedCreateWithoutUserInput = {
   id?: number
+  bookingCode: string
   packageId: number
   date: Date | string
   quantity: number
@@ -617,6 +641,7 @@ export type BookingScalarWhereInput = {
   NOT?: Prisma.BookingScalarWhereInput | Prisma.BookingScalarWhereInput[]
   id?: Prisma.IntFilter<"Booking"> | number
   userId?: Prisma.IntFilter<"Booking"> | number
+  bookingCode?: Prisma.StringFilter<"Booking"> | string
   packageId?: Prisma.IntFilter<"Booking"> | number
   date?: Prisma.DateTimeFilter<"Booking"> | Date | string
   quantity?: Prisma.IntFilter<"Booking"> | number
@@ -626,6 +651,7 @@ export type BookingScalarWhereInput = {
 }
 
 export type BookingCreateWithoutPackageInput = {
+  bookingCode: string
   date: Date | string
   quantity: number
   totalPrice: number
@@ -638,6 +664,7 @@ export type BookingCreateWithoutPackageInput = {
 export type BookingUncheckedCreateWithoutPackageInput = {
   id?: number
   userId: number
+  bookingCode: string
   date: Date | string
   quantity: number
   totalPrice: number
@@ -673,6 +700,7 @@ export type BookingUpdateManyWithWhereWithoutPackageInput = {
 }
 
 export type BookingCreateWithoutPaymentInput = {
+  bookingCode: string
   date: Date | string
   quantity: number
   totalPrice: number
@@ -685,6 +713,7 @@ export type BookingCreateWithoutPaymentInput = {
 export type BookingUncheckedCreateWithoutPaymentInput = {
   id?: number
   userId: number
+  bookingCode: string
   packageId: number
   date: Date | string
   quantity: number
@@ -710,6 +739,7 @@ export type BookingUpdateToOneWithWhereWithoutPaymentInput = {
 }
 
 export type BookingUpdateWithoutPaymentInput = {
+  bookingCode?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   totalPrice?: Prisma.IntFieldUpdateOperationsInput | number
@@ -722,6 +752,7 @@ export type BookingUpdateWithoutPaymentInput = {
 export type BookingUncheckedUpdateWithoutPaymentInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   userId?: Prisma.IntFieldUpdateOperationsInput | number
+  bookingCode?: Prisma.StringFieldUpdateOperationsInput | string
   packageId?: Prisma.IntFieldUpdateOperationsInput | number
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
@@ -732,6 +763,7 @@ export type BookingUncheckedUpdateWithoutPaymentInput = {
 
 export type BookingCreateManyUserInput = {
   id?: number
+  bookingCode: string
   packageId: number
   date: Date | string
   quantity: number
@@ -741,6 +773,7 @@ export type BookingCreateManyUserInput = {
 }
 
 export type BookingUpdateWithoutUserInput = {
+  bookingCode?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   totalPrice?: Prisma.IntFieldUpdateOperationsInput | number
@@ -752,6 +785,7 @@ export type BookingUpdateWithoutUserInput = {
 
 export type BookingUncheckedUpdateWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  bookingCode?: Prisma.StringFieldUpdateOperationsInput | string
   packageId?: Prisma.IntFieldUpdateOperationsInput | number
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
@@ -763,6 +797,7 @@ export type BookingUncheckedUpdateWithoutUserInput = {
 
 export type BookingUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  bookingCode?: Prisma.StringFieldUpdateOperationsInput | string
   packageId?: Prisma.IntFieldUpdateOperationsInput | number
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
@@ -774,6 +809,7 @@ export type BookingUncheckedUpdateManyWithoutUserInput = {
 export type BookingCreateManyPackageInput = {
   id?: number
   userId: number
+  bookingCode: string
   date: Date | string
   quantity: number
   totalPrice: number
@@ -782,6 +818,7 @@ export type BookingCreateManyPackageInput = {
 }
 
 export type BookingUpdateWithoutPackageInput = {
+  bookingCode?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   totalPrice?: Prisma.IntFieldUpdateOperationsInput | number
@@ -794,6 +831,7 @@ export type BookingUpdateWithoutPackageInput = {
 export type BookingUncheckedUpdateWithoutPackageInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   userId?: Prisma.IntFieldUpdateOperationsInput | number
+  bookingCode?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   totalPrice?: Prisma.IntFieldUpdateOperationsInput | number
@@ -805,6 +843,7 @@ export type BookingUncheckedUpdateWithoutPackageInput = {
 export type BookingUncheckedUpdateManyWithoutPackageInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   userId?: Prisma.IntFieldUpdateOperationsInput | number
+  bookingCode?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   totalPrice?: Prisma.IntFieldUpdateOperationsInput | number
@@ -817,6 +856,7 @@ export type BookingUncheckedUpdateManyWithoutPackageInput = {
 export type BookingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
+  bookingCode?: boolean
   packageId?: boolean
   date?: boolean
   quantity?: boolean
@@ -831,6 +871,7 @@ export type BookingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
 export type BookingSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
+  bookingCode?: boolean
   packageId?: boolean
   date?: boolean
   quantity?: boolean
@@ -844,6 +885,7 @@ export type BookingSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
 export type BookingSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   userId?: boolean
+  bookingCode?: boolean
   packageId?: boolean
   date?: boolean
   quantity?: boolean
@@ -857,6 +899,7 @@ export type BookingSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
 export type BookingSelectScalar = {
   id?: boolean
   userId?: boolean
+  bookingCode?: boolean
   packageId?: boolean
   date?: boolean
   quantity?: boolean
@@ -865,7 +908,7 @@ export type BookingSelectScalar = {
   createdAt?: boolean
 }
 
-export type BookingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "packageId" | "date" | "quantity" | "totalPrice" | "status" | "createdAt", ExtArgs["result"]["booking"]>
+export type BookingOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "bookingCode" | "packageId" | "date" | "quantity" | "totalPrice" | "status" | "createdAt", ExtArgs["result"]["booking"]>
 export type BookingInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   package?: boolean | Prisma.PackageDefaultArgs<ExtArgs>
@@ -890,6 +933,7 @@ export type $BookingPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     userId: number
+    bookingCode: string
     packageId: number
     date: Date
     quantity: number
@@ -1324,6 +1368,7 @@ export interface Prisma__BookingClient<T, Null = never, ExtArgs extends runtime.
 export interface BookingFieldRefs {
   readonly id: Prisma.FieldRef<"Booking", 'Int'>
   readonly userId: Prisma.FieldRef<"Booking", 'Int'>
+  readonly bookingCode: Prisma.FieldRef<"Booking", 'String'>
   readonly packageId: Prisma.FieldRef<"Booking", 'Int'>
   readonly date: Prisma.FieldRef<"Booking", 'DateTime'>
   readonly quantity: Prisma.FieldRef<"Booking", 'Int'>
