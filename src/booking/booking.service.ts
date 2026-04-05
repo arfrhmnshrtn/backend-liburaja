@@ -5,11 +5,9 @@ import { UpdateBookingDto } from './dto/update-booking.dto';
 import { PrismaService } from '../prisma.service';
 import { NotFoundException } from '@nestjs/common/exceptions/not-found.exception';
 import { MidtransService } from '../midtrans/midtrans.service';
-<<<<<<< HEAD
-import { nanoid } from 'nanoid';
-=======
 import { metadata } from 'reflect-metadata/no-conflict';
->>>>>>> booking
+import { nanoid } from 'nanoid';
+
 
 @Injectable()
 export class BookingService {
