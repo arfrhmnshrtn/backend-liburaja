@@ -20,6 +20,13 @@ export class AuthService {
   async getAllUser() {
     return await this.prisma.user.findMany({
       where: { role: 'USER' },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        createdAt: true,
+      },
     }).then((data) => {
       return {
         success: true,
@@ -33,6 +40,13 @@ export class AuthService {
   getAllAdmin() {
     return this.prisma.user.findMany({
       where: { role: 'ADMIN' },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        createdAt: true,
+      },
     }).then((data) => {
       return {
         success: true,
