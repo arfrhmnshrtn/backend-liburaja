@@ -13,8 +13,14 @@ import { UpdateUserDto } from './dto/update.user.dto';
 
 @Injectable()
 export class AuthService {
-  getAllUser() {
-    return this.prisma.user.findMany().then((data) => {
+  constructor(
+    private prisma: PrismaService,
+    private jwtService: JwtService,
+  ) {}
+  async getAllUser() {
+    return await this.prisma.user.findMany({
+      where: { role: 'USER' },
+    }).then((data) => {
       return {
         success: true,
         message: 'Get all user berhasil',
@@ -23,10 +29,20 @@ export class AuthService {
       };
     });
   }
-  constructor(
-    private prisma: PrismaService,
-    private jwtService: JwtService,
-  ) {}
+
+  getAllAdmin() {
+    return this.prisma.user.findMany({
+      where: { role: 'ADMIN' },
+    }).then((data) => {
+      return {
+        success: true,
+        message: 'Get all admin berhasil',
+        metadata: { status: HttpStatus.OK, count: data.length },
+        data,
+      };
+    });
+  }
+  
 
   async register(data: RegisterDto) {
     const existingUser = await this.prisma.user.findUnique({
