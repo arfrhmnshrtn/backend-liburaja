@@ -18,50 +18,40 @@ export class AuthService {
     private prisma: PrismaService,
     private jwtService: JwtService,
   ) {}
-  async getAllUser(userPayload: { sub: number; role: string }) {
-    if (userPayload?.role !== 'ADMIN') {
-      throw new ForbiddenException('Anda tidak diizinkan melihat data user');
-    }
-    return await this.prisma.user.findMany({
+  private readonly userSelectFields = {
+    id: true,
+    name: true,
+    email: true,
+    role: true,
+    createdAt: true,
+  };
+
+  async getAllUser() {
+    const data = await this.prisma.user.findMany({
       where: { role: 'USER' },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        role: true,
-        createdAt: true,
-      },
-    }).then((data) => {
-      return {
-        success: true,
-        message: 'Get all user berhasil',
-        metadata: { status: HttpStatus.OK, count: data.length },
-        data,
-      };
+      select: this.userSelectFields,
     });
+
+    return {
+      success: true,
+      message: 'Get all user berhasil',
+      metadata: { status: HttpStatus.OK, count: data.length },
+      data,
+    };
   }
 
-  getAllAdmin(userPayload: { sub: number; role: string }) {
-    if (userPayload?.role !== 'ADMIN') {
-      throw new ForbiddenException('Anda tidak diizinkan melihat data admin');
-    }
-    return this.prisma.user.findMany({
+  async getAllAdmin() {
+    const data = await this.prisma.user.findMany({
       where: { role: 'ADMIN' },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        role: true,
-        createdAt: true,
-      },
-    }).then((data) => {
-      return {
-        success: true,
-        message: 'Get all admin berhasil',
-        metadata: { status: HttpStatus.OK, count: data.length },
-        data,
-      };
+      select: this.userSelectFields,
     });
+
+    return {
+      success: true,
+      message: 'Get all admin berhasil',
+      metadata: { status: HttpStatus.OK, count: data.length },
+      data,
+    };
   }
   
 
@@ -159,18 +149,16 @@ export class AuthService {
       updateData.password = hashedPassword;
     }
 
-    return this.prisma.user
-      .update({
-        where: { id: userId },
-        data: updateData,
-      })
-      .then((updateData) => {
-        return {
-          success: true,
-          status: 200,
-          message: 'Update user berhasil',
-          data: updateData,
-        };
-      });
+    const updatedUser = await this.prisma.user.update({
+      where: { id: userId },
+      data: updateData,
+    });
+
+    return {
+      success: true,
+      status: 200,
+      message: 'Update user berhasil',
+      data: updatedUser,
+    };
   }
 }
