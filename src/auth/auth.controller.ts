@@ -35,8 +35,16 @@ export class AuthController {
     return this.authService.update(req.user.sub, body);
   }
 
+
+  @UseGuards(JwtAuthGuard)
   @Get('users')
   getAllUser() {
     return this.authService.getAllUser();
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('admins')
+  getAllAdmin() {
+    return this.authService.getAllAdmin();
   }
 }
