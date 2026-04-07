@@ -3,6 +3,7 @@ import {
   BadRequestException,
   UnauthorizedException,
   HttpStatus,
+  ForbiddenException,
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import * as bcrypt from 'bcrypt';
@@ -17,7 +18,10 @@ export class AuthService {
     private prisma: PrismaService,
     private jwtService: JwtService,
   ) {}
-  async getAllUser() {
+  async getAllUser(userPayload: { sub: number; role: string }) {
+    if (userPayload?.role !== 'ADMIN') {
+      throw new ForbiddenException('Anda tidak diizinkan melihat data user');
+    }
     return await this.prisma.user.findMany({
       where: { role: 'USER' },
       select: {
@@ -37,7 +41,10 @@ export class AuthService {
     });
   }
 
-  getAllAdmin() {
+  getAllAdmin(userPayload: { sub: number; role: string }) {
+    if (userPayload?.role !== 'ADMIN') {
+      throw new ForbiddenException('Anda tidak diizinkan melihat data admin');
+    }
     return this.prisma.user.findMany({
       where: { role: 'ADMIN' },
       select: {
@@ -74,13 +81,18 @@ export class AuthService {
         name: data.name,
         email: data.email,
         password: hashedPassword,
-        role: data.role,
       },
     });
 
     return {
       message: 'Register berhasil',
-      user,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        createdAt: user.createdAt,
+      },
     };
   }
 
@@ -129,7 +141,14 @@ export class AuthService {
     };
   }
 
-  async update(userId: number, data: UpdateUserDto) {
+  async update(userId: number, data: UpdateUserDto, userPayload: { sub: number; role: string }) {
+    const targetId = parseInt(userId as any, 10);
+    const requestorId = parseInt(userPayload?.sub as any, 10);
+
+    if (targetId !== requestorId && userPayload?.role !== 'ADMIN') {
+      throw new ForbiddenException('Anda tidak diizinkan mengubah data pengguna lain');
+    }
+
     const updateData: Partial<UpdateUserDto> = {};
 
     if (data.name) updateData.name = data.name;
