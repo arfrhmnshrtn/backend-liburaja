@@ -50,8 +50,9 @@ export class BookingController {
   //   return this.bookingService.update(+id, updateBookingDto);
   // }
 
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.bookingService.remove(+id);
+  remove(@Param('id') id: string, @Req() req) {
+    return this.bookingService.remove(+id, req.user);
   }
 }

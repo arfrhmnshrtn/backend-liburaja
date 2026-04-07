@@ -3,11 +3,10 @@ import { HttpStatus } from '@nestjs/common';
 import { CreateBookingDto } from './dto/create-booking.dto';
 import { UpdateBookingDto } from './dto/update-booking.dto';
 import { PrismaService } from '../prisma.service';
-import { NotFoundException } from '@nestjs/common/exceptions/not-found.exception';
+import { NotFoundException, ForbiddenException } from '@nestjs/common';
 import { MidtransService } from '../midtrans/midtrans.service';
 import { metadata } from 'reflect-metadata/no-conflict';
 import { nanoid } from 'nanoid';
-
 
 @Injectable()
 export class BookingService {
@@ -22,7 +21,7 @@ export class BookingService {
     // email: string,
     createBookingDto: CreateBookingDto,
   ) {
-    // 🔹 ambil data package
+    // ambil data package
     const paket = await this.prisma.package.findUnique({
       where: { id: createBookingDto.packageId },
     });
@@ -31,12 +30,12 @@ export class BookingService {
       throw new NotFoundException('Paket tidak ditemukan');
     }
 
-    // 🔹 hitung total harga
+    // hitung total harga
     const totalPrice = paket.price * createBookingDto.quantity;
 
     const bookingCode = `TRX-${nanoid(4).toUpperCase()}`;
 
-    // 🔹 simpan booking
+    // simpan booking
     const booking = await this.prisma.booking.create({
       data: {
         bookingCode: bookingCode,
@@ -62,7 +61,7 @@ export class BookingService {
       success: true,
       message: 'Booking berhasil dibuat',
       data: booking,
-      snapToken: transaction.token, // 🔥 INI YANG KAMU CARI
+      snapToken: transaction.token,
       redirectUrl: transaction.redirect_url,
     };
   }
@@ -88,7 +87,7 @@ export class BookingService {
   //   return `This action updates a #${id} booking`;
   // }
 
-  async remove(id: number) {
+  async remove(id: number, user: { sub: number; role: string }) {
     // 🔹 cek dulu booking
     const booking = await this.prisma.booking.findUnique({
       where: { id },
@@ -96,6 +95,10 @@ export class BookingService {
 
     if (!booking) {
       throw new NotFoundException('Booking tidak ditemukan');
+    }
+
+    if (booking.userId !== user.sub && user.role !== 'ADMIN') {
+      throw new ForbiddenException('Anda tidak berhak menghapus booking ini');
     }
 
     // 🔹 hanya boleh hapus jika masih PENDING
