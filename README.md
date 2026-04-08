@@ -29,7 +29,18 @@ Base URL: `http://localhost:3000`
 **Response:**
 ```json
 {
-  "access_token": "jwt_token"
+    "success": true,
+    "status": 200,
+    "message": "Login berhasil",
+    "data": {
+        "access_token": "jwt_token",
+        "user": {
+            "id": 1,
+            "name": "John Doe",
+            "email": "johndoe@gmail.com",
+            "role": "USER"
+        }
+    }
 }
 ```
 
@@ -66,11 +77,14 @@ Base URL: `http://localhost:3000`
 
 ### 1. Create Package
 **POST** `/packages`
-**Body:** (Bergantung pada `CreatePackageDto`)
+**Body:** 
 ```json
 {
-  "name": "Nama Paket",
-  "price": 500000
+    "name": "Nama Paket",
+    "description": "Deskripsi Paket",
+    "price": 35000,
+    "location": "Lokasi",
+    "image": "gambar.jpg"
 }
 ```
 
@@ -109,10 +123,7 @@ Base URL: `http://localhost:3000`
 ### 3. Get Bookmark by ID
 **GET** `/bookmarks/:id`
 
-### 4. Update Bookmark
-**PATCH** `/bookmarks/:id`
-
-### 5. Delete Bookmark
+### 4. Delete Bookmark
 **DELETE** `/bookmarks/:id`
 
 ---
@@ -125,9 +136,10 @@ Base URL: `http://localhost:3000`
 **Body:**
 ```json
 {
-  "packageId": 1,
-  "quantity": 2,
-  "date": "2026-12-12"
+    "userId": 1,
+    "packageId": 11,
+    "date": "11/4/2026",
+    "quantity": 3
 }
 ```
 **Response:**
