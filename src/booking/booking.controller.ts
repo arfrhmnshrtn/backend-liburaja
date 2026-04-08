@@ -43,8 +43,11 @@ export class BookingController {
 
 
   @UseGuards(JwtAuthGuard)
-  @Delete(':id')
-  remove(@Param('id') id: string, @Req() req) {
-    return this.bookingService.remove(+id, req.user);
+  @Patch(':id')
+  cancel(@Param('id') id: string, @Req() req) {
+    return this.bookingService.cancel(+id, req.user);
   }
+
+
+
 }

@@ -87,7 +87,7 @@ export class BookingService {
   //   return `This action updates a #${id} booking`;
   // }
 
-  async remove(id: number, user: { sub: number; role: string }) {
+  async cancel(id: number, user: { sub: number; role: string }) {
     // 🔹 cek dulu booking
     const booking = await this.prisma.booking.findUnique({
       where: { id },
@@ -101,22 +101,34 @@ export class BookingService {
       throw new ForbiddenException('Anda tidak berhak menghapus booking ini');
     }
 
-    // 🔹 hanya boleh hapus jika masih PENDING
-    if (booking.status !== 'PENDING') {
+    if (booking.status === 'CANCELED') {
       return {
         success: false,
-        message: 'Booking tidak bisa dihapus karena sudah dibayar',
+        message: 'Booking sudah dibatalkan!',
+        data: booking,
+      };
+    }
+
+    // 🔹 hanya boleh hapus jika masih PENDING
+    if (booking.status !== 'PENDING' ) {
+      return {
+        success: false,
+        message: 'Booking tidak bisa dibatalkan!',
       };
     }
 
     // 🔹 baru delete
-    await this.prisma.booking.delete({
+    await this.prisma.booking.update({
       where: { id },
+      data: {
+        status: 'CANCELED',
+      },
     });
 
     return {
       success: true,
-      message: 'Booking berhasil dihapus',
+      message: 'Booking berhasil dibatalkan',
+      data: booking,
     };
   }
 
