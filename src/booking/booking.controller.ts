@@ -34,10 +34,6 @@ export class BookingController {
     return this.bookingService.findAll();
   }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.bookingService.findOne(+id);
-  // }
 
   @UseGuards(JwtAuthGuard)
   @Get('me')
@@ -45,10 +41,6 @@ export class BookingController {
     return this.bookingService.findByUser(req.user.sub);
   }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateBookingDto: UpdateBookingDto) {
-  //   return this.bookingService.update(+id, updateBookingDto);
-  // }
 
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
