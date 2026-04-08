@@ -3,6 +3,7 @@ import {
   BadRequestException,
   UnauthorizedException,
   HttpStatus,
+  ForbiddenException,
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import * as bcrypt from 'bcrypt';
@@ -17,44 +18,40 @@ export class AuthService {
     private prisma: PrismaService,
     private jwtService: JwtService,
   ) {}
+  private readonly userSelectFields = {
+    id: true,
+    name: true,
+    email: true,
+    role: true,
+    createdAt: true,
+  };
+
   async getAllUser() {
-    return await this.prisma.user.findMany({
+    const data = await this.prisma.user.findMany({
       where: { role: 'USER' },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        role: true,
-        createdAt: true,
-      },
-    }).then((data) => {
-      return {
-        success: true,
-        message: 'Get all user berhasil',
-        metadata: { status: HttpStatus.OK, count: data.length },
-        data,
-      };
+      select: this.userSelectFields,
     });
+
+    return {
+      success: true,
+      message: 'Get all user berhasil',
+      metadata: { status: HttpStatus.OK, count: data.length },
+      data,
+    };
   }
 
-  getAllAdmin() {
-    return this.prisma.user.findMany({
+  async getAllAdmin() {
+    const data = await this.prisma.user.findMany({
       where: { role: 'ADMIN' },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        role: true,
-        createdAt: true,
-      },
-    }).then((data) => {
-      return {
-        success: true,
-        message: 'Get all admin berhasil',
-        metadata: { status: HttpStatus.OK, count: data.length },
-        data,
-      };
+      select: this.userSelectFields,
     });
+
+    return {
+      success: true,
+      message: 'Get all admin berhasil',
+      metadata: { status: HttpStatus.OK, count: data.length },
+      data,
+    };
   }
   
 
@@ -74,13 +71,18 @@ export class AuthService {
         name: data.name,
         email: data.email,
         password: hashedPassword,
-        role: data.role,
       },
     });
 
     return {
       message: 'Register berhasil',
-      user,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        createdAt: user.createdAt,
+      },
     };
   }
 
@@ -129,7 +131,14 @@ export class AuthService {
     };
   }
 
-  async update(userId: number, data: UpdateUserDto) {
+  async update(userId: number, data: UpdateUserDto, userPayload: { sub: number; role: string }) {
+    const targetId = parseInt(userId as any, 10);
+    const requestorId = parseInt(userPayload?.sub as any, 10);
+
+    if (targetId !== requestorId && userPayload?.role !== 'ADMIN') {
+      throw new ForbiddenException('Anda tidak diizinkan mengubah data pengguna lain');
+    }
+
     const updateData: Partial<UpdateUserDto> = {};
 
     if (data.name) updateData.name = data.name;
@@ -140,18 +149,16 @@ export class AuthService {
       updateData.password = hashedPassword;
     }
 
-    return this.prisma.user
-      .update({
-        where: { id: userId },
-        data: updateData,
-      })
-      .then((updateData) => {
-        return {
-          success: true,
-          status: 200,
-          message: 'Update user berhasil',
-          data: updateData,
-        };
-      });
+    const updatedUser = await this.prisma.user.update({
+      where: { id: userId },
+      data: updateData,
+    });
+
+    return {
+      success: true,
+      status: 200,
+      message: 'Update user berhasil',
+      data: updatedUser,
+    };
   }
 }
