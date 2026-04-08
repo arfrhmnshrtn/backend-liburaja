@@ -1,6 +1,6 @@
 # 🚀 Backend API Documentation
 
-Base URL: `http://localhost:3000`
+Base URL: `http://localhost:3000/api`
 
 ---
 
