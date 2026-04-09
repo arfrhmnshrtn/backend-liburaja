@@ -86,13 +86,58 @@ export class AuthService {
     };
   }
 
-  async login(data: LoginDto) {
+  async loginUser(data: LoginDto) {
     const user = await this.prisma.user.findUnique({
       where: { email: data.email },
     });
 
     if (!user) {
       throw new UnauthorizedException('Email tidak ditemukan');
+    }
+
+    if (user.role !== 'USER') {
+      throw new ForbiddenException('Hanya USER yang dapat login di endpoint ini');
+    }
+
+    const isMatch = await bcrypt.compare(data.password, user.password);
+
+    if (!isMatch) {
+      throw new UnauthorizedException('Password salah');
+    }
+
+    const payload = {
+      sub: user.id,
+      email: user.email,
+      role: user.role,
+    };
+
+    return {
+      success: true,
+      status: 200,
+      message: 'Login berhasil',
+      data: {
+        access_token: this.jwtService.sign(payload),
+        user: {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+        },
+      },
+    };
+  }
+
+  async loginAdmin(data: LoginDto) {
+    const user = await this.prisma.user.findUnique({
+      where: { email: data.email },
+    });
+
+    if (!user) {
+      throw new UnauthorizedException('Email tidak ditemukan');
+    }
+
+    if (user.role !== 'ADMIN') {
+      throw new ForbiddenException('Hanya ADMIN yang dapat login di endpoint ini');
     }
 
     const isMatch = await bcrypt.compare(data.password, user.password);
