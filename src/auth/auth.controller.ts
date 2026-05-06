@@ -66,4 +66,12 @@ export class AuthController {
   getAllAdmin() {
     return this.authService.getAllAdmin();
   }
+
+  // register admin
+  // @UseGuards(JwtAuthGuard, RolesGuard)
+  // @Roles('ADMIN')
+  @Post('register/admin')
+  registerAdmin(@Body() body: RegisterDto) {
+    return this.authService.registerAdmin(body);
+  }
 }

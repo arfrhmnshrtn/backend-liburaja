@@ -206,4 +206,37 @@ export class AuthService {
       data: updatedUser,
     };
   }
+
+  // register admin
+  async registerAdmin(data: RegisterDto) {
+    const existingUser = await this.prisma.user.findUnique({
+      where: { email: data.email },
+    });
+
+    if (existingUser) {
+      throw new BadRequestException('Email sudah digunakan');
+    }
+
+    const hashedPassword = await bcrypt.hash(data.password, 10);
+
+    const user = await this.prisma.user.create({
+      data: {
+        name: data.name,
+        email: data.email,
+        password: hashedPassword,
+        role: 'ADMIN',
+      },
+    });
+
+    return {
+      message: 'Register berhasil',
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        createdAt: user.createdAt,
+      },
+    };
+  }
 }
