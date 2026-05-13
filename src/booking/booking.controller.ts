@@ -55,7 +55,4 @@ export class BookingController {
   cancel(@Param('id') id: string, @Req() req) {
     return this.bookingService.cancel(+id, req.user);
   }
-
-
-
 }

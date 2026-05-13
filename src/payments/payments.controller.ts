@@ -39,5 +39,4 @@ export class PaymentsController {
 
     return { message: 'OK' };
   }
-
 }
