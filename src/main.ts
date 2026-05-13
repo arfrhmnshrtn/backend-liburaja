@@ -1,14 +1,16 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
+import { Request, Response, NextFunction } from 'express';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // global prefix
   app.setGlobalPrefix('api');
 
-  // global validation pipe
+  // MATIKAN cors bawaan
+  app.enableCors();
+
   app.useGlobalPipes(new ValidationPipe());
 
   await app.listen(3000);

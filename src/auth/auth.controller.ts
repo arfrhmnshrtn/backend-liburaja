@@ -43,6 +43,7 @@ export class AuthController {
     return this.authService.update(user.sub, body, user);
   }
 
+
   @UseGuards(JwtAuthGuard)
   @Patch('update/:id')
   updateById(

@@ -6,6 +6,7 @@
 generator client {
   provider = "prisma-client"
   output   = "../src/generated/prisma"
+  binaryTargets = ["native","linux-musl"]
   moduleFormat = "cjs"
 }
 
@@ -27,6 +28,7 @@ model User {
   createdAt DateTime @default(now())
 
   bookings  Booking[]
+  bookmarks Bookmark[]
 }
 
 model Package {
@@ -39,13 +41,16 @@ model Package {
   createdAt   DateTime @default(now())
 
   bookings    Booking[]
+  bookmarks   Bookmark[]
 }
 
 model Booking {
   id          Int            @id @default(autoincrement())
   userId      Int
+  bookingCode String?         @unique
   packageId   Int
   date        DateTime
+  quantity    Int
   totalPrice  Int
   status      BookingStatus  @default(PENDING)
   createdAt   DateTime       @default(now())
@@ -63,6 +68,18 @@ model Payment {
   createdAt   DateTime       @default(now())
 
   booking     Booking @relation(fields: [bookingId], references: [id])
+}
+
+model Bookmark {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  packageId Int
+  createdAt DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id])
+  package Package @relation(fields: [packageId], references: [id])
+
+  @@unique([userId, packageId]) // 🔥 biar tidak double bookmark
 }
 
 // enum Role {

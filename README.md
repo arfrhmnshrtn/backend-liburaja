@@ -1,98 +1,187 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 🚀 Backend API Documentation
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Base URL: `http://localhost:3000/api`
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+---
 
-## Description
+## 🔐 Auth API
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Project setup
-
-```bash
-$ npm install
+### 1. Register
+**POST** `/auth/register`
+**Body:**
+```json
+{
+  "name": "John Doe",
+  "email": "johndoe@gmail.com",
+  "password": "password123"
+}
 ```
 
-## Compile and run the project
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+### 2. Login
+**POST** `/auth/login`
+**Body:**
+```json
+{
+  "email": "johndoe@gmail.com",
+  "password": "password123"
+}
+```
+**Response:**
+```json
+{
+    "success": true,
+    "status": 200,
+    "message": "Login berhasil",
+    "data": {
+        "access_token": "jwt_token",
+        "user": {
+            "id": 1,
+            "name": "John Doe",
+            "email": "johndoe@gmail.com",
+            "role": "USER"
+        }
+    }
+}
 ```
 
-## Run tests
+### 3. Logout
+**POST** `/auth/logout`
 
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+### 4. Update Profile (Current User)
+**PATCH** `/auth/update`
+*(Requires Bearer Token)*
+**Body:**
+```json
+{
+  "name": "John Update",
+  "email": "john.update@gmail.com",
+  "password": "newpassword123"
+}
 ```
 
-## Deployment
+### 5. Update Profile by ID
+**PATCH** `/auth/update/:id`
+*(Requires Bearer Token)*
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+### 6. Get All Users
+**GET** `/auth/users`
+*(Requires Bearer Token, Role: ADMIN)*
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### 7. Get All Admins
+**GET** `/auth/admins`
+*(Requires Bearer Token, Role: ADMIN)*
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+---
+
+## 📦 Packages API
+
+### 1. Create Package
+**POST** `/packages`
+**Body:** 
+```json
+{
+    "name": "Nama Paket",
+    "description": "Deskripsi Paket",
+    "price": 35000,
+    "location": "Lokasi",
+    "image": "gambar.jpg"
+}
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### 2. Get All Packages
+**GET** `/packages`
 
-## Resources
+### 3. Get Package by ID
+**GET** `/packages/:id`
 
-Check out a few resources that may come in handy when working with NestJS:
+### 4. Update Package
+**PATCH** `/packages/:id`
+**Body:** (Bergantung pada `UpdatePackageDto`)
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+### 5. Delete Package
+**DELETE** `/packages/:id`
 
-## Support
+---
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## 🔖 Bookmarks API
+*(Semua aksi pembuatan/pengambilan data ini ditautkan otomatis dengan ID User yang login).*
 
-## Stay in touch
+### 1. Create Bookmark
+**POST** `/bookmarks`
+*(Requires Bearer Token)*
+**Body:**
+```json
+{
+  "packageId": 1
+}
+```
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### 2. Get My Bookmarks
+**GET** `/bookmarks`
+*(Requires Bearer Token)*
 
-## License
+### 3. Get Bookmark by ID
+**GET** `/bookmarks/:id`
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+### 4. Delete Bookmark
+**DELETE** `/bookmarks/:id`
+
+---
+
+## 🛒 Booking API
+
+### 1. Create Booking (Checkout)
+**POST** `/booking`
+*(Requires Bearer Token)*
+**Body:**
+```json
+{
+    "userId": 1,
+    "packageId": 11,
+    "date": "11/4/2026",
+    "quantity": 3
+}
+```
+**Response:**
+Menghasilkan objek transaksi beserta integrasi Midtrans.
+```json
+{
+  "success": true,
+  "data": { ... },
+  "snapToken": "...",
+  "redirectUrl": "..."
+}
+```
+
+### 2. Get All Bookings
+**GET** `/booking`
+*(Endpoint untuk admin melihat seluruh pesanan)*
+
+### 3. Get My Bookings
+**GET** `/booking/me`
+*(Requires Bearer Token)*
+*(Menampilkan pesanan yang dimiliki oleh user yang sedang login)*
+
+### 4. Cancel Booking
+**PATCH** `/booking/:id`
+*(Requires Bearer Token)*
+Mengubah status pesanan menjadi `CANCELED`.
+
+---
+
+## 💳 Payments API
+
+### 1. Midtrans Webhook
+**POST** `/payments/midtrans/webhook`
+*(Endpoint backend-to-backend)*
+Endpoint ini otomatis dihit oleh sistem Midtrans bila pengguna berhasil menyelesaikan pembayaran atau pesanannya kadaluarsa. Sistem akan otomatis mengganti status `Booking` menjadi `PAID` apabila pembayaran berhasil (`capture` atau `settlement`).
+
+---
+
+## ⚠️ Notes
+* Semua endpoint yang dilabeli **(Requires Bearer Token)** wajib menyertakan Authorization Header di request API.
+* Format header: 
+  ```
+  Authorization: Bearer <token>
+  ```
+* Beberapa rute seperti `GET /auth/users` dibatasi melalui sistem Role (*Role-Based Access Control* / RBAC).

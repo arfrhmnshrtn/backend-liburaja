@@ -237,6 +237,7 @@ export type PackageWhereInput = {
   image?: Prisma.StringFilter<"Package"> | string
   createdAt?: Prisma.DateTimeFilter<"Package"> | Date | string
   bookings?: Prisma.BookingListRelationFilter
+  bookmarks?: Prisma.BookmarkListRelationFilter
 }
 
 export type PackageOrderByWithRelationInput = {
@@ -248,6 +249,7 @@ export type PackageOrderByWithRelationInput = {
   image?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   bookings?: Prisma.BookingOrderByRelationAggregateInput
+  bookmarks?: Prisma.BookmarkOrderByRelationAggregateInput
 }
 
 export type PackageWhereUniqueInput = Prisma.AtLeast<{
@@ -262,6 +264,7 @@ export type PackageWhereUniqueInput = Prisma.AtLeast<{
   image?: Prisma.StringFilter<"Package"> | string
   createdAt?: Prisma.DateTimeFilter<"Package"> | Date | string
   bookings?: Prisma.BookingListRelationFilter
+  bookmarks?: Prisma.BookmarkListRelationFilter
 }, "id">
 
 export type PackageOrderByWithAggregationInput = {
@@ -300,6 +303,7 @@ export type PackageCreateInput = {
   image: string
   createdAt?: Date | string
   bookings?: Prisma.BookingCreateNestedManyWithoutPackageInput
+  bookmarks?: Prisma.BookmarkCreateNestedManyWithoutPackageInput
 }
 
 export type PackageUncheckedCreateInput = {
@@ -311,6 +315,7 @@ export type PackageUncheckedCreateInput = {
   image: string
   createdAt?: Date | string
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutPackageInput
+  bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutPackageInput
 }
 
 export type PackageUpdateInput = {
@@ -321,6 +326,7 @@ export type PackageUpdateInput = {
   image?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bookings?: Prisma.BookingUpdateManyWithoutPackageNestedInput
+  bookmarks?: Prisma.BookmarkUpdateManyWithoutPackageNestedInput
 }
 
 export type PackageUncheckedUpdateInput = {
@@ -332,6 +338,7 @@ export type PackageUncheckedUpdateInput = {
   image?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutPackageNestedInput
+  bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutPackageNestedInput
 }
 
 export type PackageCreateManyInput = {
@@ -422,6 +429,20 @@ export type PackageUpdateOneRequiredWithoutBookingsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.PackageUpdateToOneWithWhereWithoutBookingsInput, Prisma.PackageUpdateWithoutBookingsInput>, Prisma.PackageUncheckedUpdateWithoutBookingsInput>
 }
 
+export type PackageCreateNestedOneWithoutBookmarksInput = {
+  create?: Prisma.XOR<Prisma.PackageCreateWithoutBookmarksInput, Prisma.PackageUncheckedCreateWithoutBookmarksInput>
+  connectOrCreate?: Prisma.PackageCreateOrConnectWithoutBookmarksInput
+  connect?: Prisma.PackageWhereUniqueInput
+}
+
+export type PackageUpdateOneRequiredWithoutBookmarksNestedInput = {
+  create?: Prisma.XOR<Prisma.PackageCreateWithoutBookmarksInput, Prisma.PackageUncheckedCreateWithoutBookmarksInput>
+  connectOrCreate?: Prisma.PackageCreateOrConnectWithoutBookmarksInput
+  upsert?: Prisma.PackageUpsertWithoutBookmarksInput
+  connect?: Prisma.PackageWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.PackageUpdateToOneWithWhereWithoutBookmarksInput, Prisma.PackageUpdateWithoutBookmarksInput>, Prisma.PackageUncheckedUpdateWithoutBookmarksInput>
+}
+
 export type PackageCreateWithoutBookingsInput = {
   name: string
   description: string
@@ -429,6 +450,7 @@ export type PackageCreateWithoutBookingsInput = {
   location: string
   image: string
   createdAt?: Date | string
+  bookmarks?: Prisma.BookmarkCreateNestedManyWithoutPackageInput
 }
 
 export type PackageUncheckedCreateWithoutBookingsInput = {
@@ -439,6 +461,7 @@ export type PackageUncheckedCreateWithoutBookingsInput = {
   location: string
   image: string
   createdAt?: Date | string
+  bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutPackageInput
 }
 
 export type PackageCreateOrConnectWithoutBookingsInput = {
@@ -464,6 +487,7 @@ export type PackageUpdateWithoutBookingsInput = {
   location?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  bookmarks?: Prisma.BookmarkUpdateManyWithoutPackageNestedInput
 }
 
 export type PackageUncheckedUpdateWithoutBookingsInput = {
@@ -474,6 +498,65 @@ export type PackageUncheckedUpdateWithoutBookingsInput = {
   location?: Prisma.StringFieldUpdateOperationsInput | string
   image?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutPackageNestedInput
+}
+
+export type PackageCreateWithoutBookmarksInput = {
+  name: string
+  description: string
+  price: number
+  location: string
+  image: string
+  createdAt?: Date | string
+  bookings?: Prisma.BookingCreateNestedManyWithoutPackageInput
+}
+
+export type PackageUncheckedCreateWithoutBookmarksInput = {
+  id?: number
+  name: string
+  description: string
+  price: number
+  location: string
+  image: string
+  createdAt?: Date | string
+  bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutPackageInput
+}
+
+export type PackageCreateOrConnectWithoutBookmarksInput = {
+  where: Prisma.PackageWhereUniqueInput
+  create: Prisma.XOR<Prisma.PackageCreateWithoutBookmarksInput, Prisma.PackageUncheckedCreateWithoutBookmarksInput>
+}
+
+export type PackageUpsertWithoutBookmarksInput = {
+  update: Prisma.XOR<Prisma.PackageUpdateWithoutBookmarksInput, Prisma.PackageUncheckedUpdateWithoutBookmarksInput>
+  create: Prisma.XOR<Prisma.PackageCreateWithoutBookmarksInput, Prisma.PackageUncheckedCreateWithoutBookmarksInput>
+  where?: Prisma.PackageWhereInput
+}
+
+export type PackageUpdateToOneWithWhereWithoutBookmarksInput = {
+  where?: Prisma.PackageWhereInput
+  data: Prisma.XOR<Prisma.PackageUpdateWithoutBookmarksInput, Prisma.PackageUncheckedUpdateWithoutBookmarksInput>
+}
+
+export type PackageUpdateWithoutBookmarksInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.IntFieldUpdateOperationsInput | number
+  location?: Prisma.StringFieldUpdateOperationsInput | string
+  image?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  bookings?: Prisma.BookingUpdateManyWithoutPackageNestedInput
+}
+
+export type PackageUncheckedUpdateWithoutBookmarksInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.IntFieldUpdateOperationsInput | number
+  location?: Prisma.StringFieldUpdateOperationsInput | string
+  image?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  bookings?: Prisma.BookingUncheckedUpdateManyWithoutPackageNestedInput
 }
 
 
@@ -483,10 +566,12 @@ export type PackageUncheckedUpdateWithoutBookingsInput = {
 
 export type PackageCountOutputType = {
   bookings: number
+  bookmarks: number
 }
 
 export type PackageCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   bookings?: boolean | PackageCountOutputTypeCountBookingsArgs
+  bookmarks?: boolean | PackageCountOutputTypeCountBookmarksArgs
 }
 
 /**
@@ -506,6 +591,13 @@ export type PackageCountOutputTypeCountBookingsArgs<ExtArgs extends runtime.Type
   where?: Prisma.BookingWhereInput
 }
 
+/**
+ * PackageCountOutputType without action
+ */
+export type PackageCountOutputTypeCountBookmarksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.BookmarkWhereInput
+}
+
 
 export type PackageSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -516,6 +608,7 @@ export type PackageSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   image?: boolean
   createdAt?: boolean
   bookings?: boolean | Prisma.Package$bookingsArgs<ExtArgs>
+  bookmarks?: boolean | Prisma.Package$bookmarksArgs<ExtArgs>
   _count?: boolean | Prisma.PackageCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["package"]>
 
@@ -552,6 +645,7 @@ export type PackageSelectScalar = {
 export type PackageOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "price" | "location" | "image" | "createdAt", ExtArgs["result"]["package"]>
 export type PackageInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   bookings?: boolean | Prisma.Package$bookingsArgs<ExtArgs>
+  bookmarks?: boolean | Prisma.Package$bookmarksArgs<ExtArgs>
   _count?: boolean | Prisma.PackageCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type PackageIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -561,6 +655,7 @@ export type $PackagePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   name: "Package"
   objects: {
     bookings: Prisma.$BookingPayload<ExtArgs>[]
+    bookmarks: Prisma.$BookmarkPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -965,6 +1060,7 @@ readonly fields: PackageFieldRefs;
 export interface Prisma__PackageClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   bookings<T extends Prisma.Package$bookingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Package$bookingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  bookmarks<T extends Prisma.Package$bookmarksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Package$bookmarksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookmarkPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1415,6 +1511,30 @@ export type Package$bookingsArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   distinct?: Prisma.BookingScalarFieldEnum | Prisma.BookingScalarFieldEnum[]
+}
+
+/**
+ * Package.bookmarks
+ */
+export type Package$bookmarksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Bookmark
+   */
+  select?: Prisma.BookmarkSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Bookmark
+   */
+  omit?: Prisma.BookmarkOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BookmarkInclude<ExtArgs> | null
+  where?: Prisma.BookmarkWhereInput
+  orderBy?: Prisma.BookmarkOrderByWithRelationInput | Prisma.BookmarkOrderByWithRelationInput[]
+  cursor?: Prisma.BookmarkWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.BookmarkScalarFieldEnum | Prisma.BookmarkScalarFieldEnum[]
 }
 
 /**
