@@ -47,4 +47,10 @@ export class BookmarksController {
   remove(@Param('id') id: string) {
     return this.bookmarksService.remove(+id);
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete('package/:packageId')
+  removeByPackage(@Req() req, @Param('packageId') packageId: string) {
+    return this.bookmarksService.removeByPackage(req.user.sub, +packageId);
+  }
 }

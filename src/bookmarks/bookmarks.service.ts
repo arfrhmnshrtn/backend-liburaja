@@ -81,4 +81,24 @@ export class BookmarksService {
       data: result,
     };
   }
+
+  async removeByPackage(userId: number, packageId: number) {
+    const bookmark = await this.prisma.bookmark.findFirst({
+      where: { userId, packageId },
+    });
+
+    if (!bookmark) {
+      throw new BadRequestException('Bookmark tidak ditemukan');
+    }
+    
+    const result = await this.prisma.bookmark.delete({
+      where: { id: bookmark.id },
+    });
+
+    return {
+      success: true,
+      message: 'Bookmark berhasil dihapus',
+      data: result,
+    };
+  }
 }
