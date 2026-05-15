@@ -226,6 +226,7 @@ export type UserWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   bookings?: Prisma.BookingListRelationFilter
   bookmarks?: Prisma.BookmarkListRelationFilter
+  voucherUsages?: Prisma.VoucherUsageListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -237,6 +238,7 @@ export type UserOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   bookings?: Prisma.BookingOrderByRelationAggregateInput
   bookmarks?: Prisma.BookmarkOrderByRelationAggregateInput
+  voucherUsages?: Prisma.VoucherUsageOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -251,6 +253,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   bookings?: Prisma.BookingListRelationFilter
   bookmarks?: Prisma.BookmarkListRelationFilter
+  voucherUsages?: Prisma.VoucherUsageListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -287,6 +290,7 @@ export type UserCreateInput = {
   createdAt?: Date | string
   bookings?: Prisma.BookingCreateNestedManyWithoutUserInput
   bookmarks?: Prisma.BookmarkCreateNestedManyWithoutUserInput
+  voucherUsages?: Prisma.VoucherUsageCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -298,6 +302,7 @@ export type UserUncheckedCreateInput = {
   createdAt?: Date | string
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutUserInput
   bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutUserInput
+  voucherUsages?: Prisma.VoucherUsageUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -308,6 +313,7 @@ export type UserUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bookings?: Prisma.BookingUpdateManyWithoutUserNestedInput
   bookmarks?: Prisma.BookmarkUpdateManyWithoutUserNestedInput
+  voucherUsages?: Prisma.VoucherUsageUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -319,6 +325,7 @@ export type UserUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutUserNestedInput
   bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutUserNestedInput
+  voucherUsages?: Prisma.VoucherUsageUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -435,6 +442,20 @@ export type UserUpdateOneRequiredWithoutBookmarksNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutBookmarksInput, Prisma.UserUpdateWithoutBookmarksInput>, Prisma.UserUncheckedUpdateWithoutBookmarksInput>
 }
 
+export type UserCreateNestedOneWithoutVoucherUsagesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutVoucherUsagesInput, Prisma.UserUncheckedCreateWithoutVoucherUsagesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutVoucherUsagesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutVoucherUsagesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutVoucherUsagesInput, Prisma.UserUncheckedCreateWithoutVoucherUsagesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutVoucherUsagesInput
+  upsert?: Prisma.UserUpsertWithoutVoucherUsagesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutVoucherUsagesInput, Prisma.UserUpdateWithoutVoucherUsagesInput>, Prisma.UserUncheckedUpdateWithoutVoucherUsagesInput>
+}
+
 export type UserCreateWithoutBookingsInput = {
   name: string
   email: string
@@ -442,6 +463,7 @@ export type UserCreateWithoutBookingsInput = {
   role?: $Enums.Role
   createdAt?: Date | string
   bookmarks?: Prisma.BookmarkCreateNestedManyWithoutUserInput
+  voucherUsages?: Prisma.VoucherUsageCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutBookingsInput = {
@@ -452,6 +474,7 @@ export type UserUncheckedCreateWithoutBookingsInput = {
   role?: $Enums.Role
   createdAt?: Date | string
   bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutUserInput
+  voucherUsages?: Prisma.VoucherUsageUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutBookingsInput = {
@@ -477,6 +500,7 @@ export type UserUpdateWithoutBookingsInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bookmarks?: Prisma.BookmarkUpdateManyWithoutUserNestedInput
+  voucherUsages?: Prisma.VoucherUsageUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutBookingsInput = {
@@ -487,6 +511,7 @@ export type UserUncheckedUpdateWithoutBookingsInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutUserNestedInput
+  voucherUsages?: Prisma.VoucherUsageUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutBookmarksInput = {
@@ -496,6 +521,7 @@ export type UserCreateWithoutBookmarksInput = {
   role?: $Enums.Role
   createdAt?: Date | string
   bookings?: Prisma.BookingCreateNestedManyWithoutUserInput
+  voucherUsages?: Prisma.VoucherUsageCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutBookmarksInput = {
@@ -506,6 +532,7 @@ export type UserUncheckedCreateWithoutBookmarksInput = {
   role?: $Enums.Role
   createdAt?: Date | string
   bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutUserInput
+  voucherUsages?: Prisma.VoucherUsageUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutBookmarksInput = {
@@ -531,6 +558,7 @@ export type UserUpdateWithoutBookmarksInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bookings?: Prisma.BookingUpdateManyWithoutUserNestedInput
+  voucherUsages?: Prisma.VoucherUsageUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutBookmarksInput = {
@@ -541,6 +569,65 @@ export type UserUncheckedUpdateWithoutBookmarksInput = {
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   bookings?: Prisma.BookingUncheckedUpdateManyWithoutUserNestedInput
+  voucherUsages?: Prisma.VoucherUsageUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutVoucherUsagesInput = {
+  name: string
+  email: string
+  password: string
+  role?: $Enums.Role
+  createdAt?: Date | string
+  bookings?: Prisma.BookingCreateNestedManyWithoutUserInput
+  bookmarks?: Prisma.BookmarkCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutVoucherUsagesInput = {
+  id?: number
+  name: string
+  email: string
+  password: string
+  role?: $Enums.Role
+  createdAt?: Date | string
+  bookings?: Prisma.BookingUncheckedCreateNestedManyWithoutUserInput
+  bookmarks?: Prisma.BookmarkUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutVoucherUsagesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutVoucherUsagesInput, Prisma.UserUncheckedCreateWithoutVoucherUsagesInput>
+}
+
+export type UserUpsertWithoutVoucherUsagesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutVoucherUsagesInput, Prisma.UserUncheckedUpdateWithoutVoucherUsagesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutVoucherUsagesInput, Prisma.UserUncheckedCreateWithoutVoucherUsagesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutVoucherUsagesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutVoucherUsagesInput, Prisma.UserUncheckedUpdateWithoutVoucherUsagesInput>
+}
+
+export type UserUpdateWithoutVoucherUsagesInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  bookings?: Prisma.BookingUpdateManyWithoutUserNestedInput
+  bookmarks?: Prisma.BookmarkUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutVoucherUsagesInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  bookings?: Prisma.BookingUncheckedUpdateManyWithoutUserNestedInput
+  bookmarks?: Prisma.BookmarkUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -551,11 +638,13 @@ export type UserUncheckedUpdateWithoutBookmarksInput = {
 export type UserCountOutputType = {
   bookings: number
   bookmarks: number
+  voucherUsages: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   bookings?: boolean | UserCountOutputTypeCountBookingsArgs
   bookmarks?: boolean | UserCountOutputTypeCountBookmarksArgs
+  voucherUsages?: boolean | UserCountOutputTypeCountVoucherUsagesArgs
 }
 
 /**
@@ -582,6 +671,13 @@ export type UserCountOutputTypeCountBookmarksArgs<ExtArgs extends runtime.Types.
   where?: Prisma.BookmarkWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountVoucherUsagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.VoucherUsageWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -592,6 +688,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   createdAt?: boolean
   bookings?: boolean | Prisma.User$bookingsArgs<ExtArgs>
   bookmarks?: boolean | Prisma.User$bookmarksArgs<ExtArgs>
+  voucherUsages?: boolean | Prisma.User$voucherUsagesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -626,6 +723,7 @@ export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = run
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   bookings?: boolean | Prisma.User$bookingsArgs<ExtArgs>
   bookmarks?: boolean | Prisma.User$bookmarksArgs<ExtArgs>
+  voucherUsages?: boolean | Prisma.User$voucherUsagesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -636,6 +734,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   objects: {
     bookings: Prisma.$BookingPayload<ExtArgs>[]
     bookmarks: Prisma.$BookmarkPayload<ExtArgs>[]
+    voucherUsages: Prisma.$VoucherUsagePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1040,6 +1139,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   readonly [Symbol.toStringTag]: "PrismaPromise"
   bookings<T extends Prisma.User$bookingsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$bookingsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   bookmarks<T extends Prisma.User$bookmarksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$bookmarksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BookmarkPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  voucherUsages<T extends Prisma.User$voucherUsagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$voucherUsagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VoucherUsagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1513,6 +1613,30 @@ export type User$bookmarksArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   distinct?: Prisma.BookmarkScalarFieldEnum | Prisma.BookmarkScalarFieldEnum[]
+}
+
+/**
+ * User.voucherUsages
+ */
+export type User$voucherUsagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the VoucherUsage
+   */
+  select?: Prisma.VoucherUsageSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the VoucherUsage
+   */
+  omit?: Prisma.VoucherUsageOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VoucherUsageInclude<ExtArgs> | null
+  where?: Prisma.VoucherUsageWhereInput
+  orderBy?: Prisma.VoucherUsageOrderByWithRelationInput | Prisma.VoucherUsageOrderByWithRelationInput[]
+  cursor?: Prisma.VoucherUsageWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.VoucherUsageScalarFieldEnum | Prisma.VoucherUsageScalarFieldEnum[]
 }
 
 /**

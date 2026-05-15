@@ -64,3 +64,13 @@ export type Payment = Prisma.PaymentModel
  * 
  */
 export type Bookmark = Prisma.BookmarkModel
+/**
+ * Model Voucher
+ * 
+ */
+export type Voucher = Prisma.VoucherModel
+/**
+ * Model VoucherUsage
+ * 
+ */
+export type VoucherUsage = Prisma.VoucherUsageModel

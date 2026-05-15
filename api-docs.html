@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>API Documentation - Liburaja Backend</title>
+    <title>API Documentation - Jelajah.In Backend</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -51,7 +51,7 @@
     <!-- Sidebar -->
     <aside class="w-64 bg-white border-r border-slate-200 h-full flex flex-col shadow-sm z-10 flex-shrink-0">
         <div class="p-6 border-b border-slate-200">
-            <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Liburaja API</h1>
+            <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Jelajah.In API</h1>
             <p class="text-sm text-slate-500 mt-1">v1.0.0 Documentation</p>
         </div>
         <nav class="flex-1 overflow-y-auto p-4 space-y-1">
@@ -66,6 +66,7 @@
             <a href="#bookmarks-module" class="block px-3 py-2 text-sm font-medium rounded-md text-slate-700 hover:text-blue-600 hover:bg-blue-50 transition-colors">Bookmarks</a>
             <a href="#packages-module" class="block px-3 py-2 text-sm font-medium rounded-md text-slate-700 hover:text-blue-600 hover:bg-blue-50 transition-colors">Packages</a>
             <a href="#payments-module" class="block px-3 py-2 text-sm font-medium rounded-md text-slate-700 hover:text-blue-600 hover:bg-blue-50 transition-colors">Payments</a>
+            <a href="#vouchers-module" class="block px-3 py-2 text-sm font-medium rounded-md text-slate-700 hover:text-blue-600 hover:bg-blue-50 transition-colors">Vouchers</a>
         </nav>
     </aside>
 
@@ -246,11 +247,21 @@
                         <h4 class="font-semibold text-slate-900 mb-2 text-sm uppercase tracking-wide">Request Body (JSON)</h4>
                         <div class="bg-slate-50 rounded-lg border border-slate-200 p-4 font-mono text-sm overflow-x-auto">
 <pre class="text-slate-700">{
-  <span class="text-blue-600">"bookingCode"</span>: <span class="text-green-600">"string"</span>,
   <span class="text-blue-600">"packageId"</span>: <span class="text-orange-500">number</span>,
   <span class="text-blue-600">"date"</span>: <span class="text-green-600">"2026-05-05T00:00:00Z"</span>, <span class="text-slate-400">// Format Date ISO</span>
   <span class="text-blue-600">"quantity"</span>: <span class="text-orange-500">number</span>,
-  <span class="text-blue-600">"totalPrice"</span>: <span class="text-orange-500">number</span>
+  <span class="text-blue-600">"voucherCode"</span>: <span class="text-green-600">"string"</span> <span class="text-slate-400">// Opsional: Masukkan kode diskon jika ada</span>
+}</pre>
+                        </div>
+                        <h4 class="font-semibold text-slate-900 mt-4 mb-2 text-sm uppercase tracking-wide">Response Sukses (201 Created)</h4>
+                        <div class="bg-slate-50 rounded-lg border border-slate-200 p-4 font-mono text-sm overflow-x-auto">
+<pre class="text-slate-700">{
+  <span class="text-blue-600">"success"</span>: <span class="text-purple-600">true</span>,
+  <span class="text-blue-600">"message"</span>: <span class="text-green-600">"Booking berhasil dibuat dengan voucher"</span>,
+  <span class="text-blue-600">"data"</span>: { <span class="text-slate-400">/* detail booking dengan totalPrice yang sudah dipotong diskon */</span> },
+  <span class="text-blue-600">"discount"</span>: <span class="text-orange-500">50000</span>, <span class="text-slate-400">// Nominal diskon yang didapat</span>
+  <span class="text-blue-600">"snapToken"</span>: <span class="text-green-600">"..."</span>,
+  <span class="text-blue-600">"redirectUrl"</span>: <span class="text-green-600">"..."</span>
 }</pre>
                         </div>
                     </div>
@@ -448,6 +459,168 @@
                     <div class="p-5">
                         <p class="text-slate-600 mb-2">Menghapus data paket wisata secara permanen.</p>
                         <p class="text-sm text-slate-500"><strong>Path Parameter:</strong> <code class="bg-slate-100 px-1 rounded text-pink-600">id</code> - ID paket wisata.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VOUCHERS MODULE -->
+            <section id="vouchers-module" class="scroll-mt-12 space-y-6">
+                <div class="border-b border-slate-200 pb-4 mb-8">
+                    <h2 class="text-2xl font-bold text-slate-900">Vouchers Module</h2>
+                    <p class="text-slate-500 mt-2">Endpoint untuk mengelola voucher diskon dan riwayat penggunaannya.</p>
+                </div>
+
+                <!-- Create Voucher -->
+                <div class="endpoint-card bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden border-POST">
+                    <div class="p-5 border-b border-slate-100 flex flex-wrap justify-between items-center bg-slate-50/50 gap-2">
+                        <div class="flex items-center gap-3">
+                            <span class="px-3 py-1 rounded text-sm font-bold method-POST">POST</span>
+                            <code class="text-slate-900 font-mono text-lg">/vouchers</code>
+                        </div>
+                        <div class="flex gap-2">
+                            <span class="bg-purple-100 text-purple-800 text-xs font-semibold px-2.5 py-0.5 rounded flex items-center gap-1"><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg> Auth Required</span>
+                            <span class="bg-red-100 text-red-800 text-xs font-semibold px-2.5 py-0.5 rounded flex items-center gap-1">Admin Only</span>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <p class="text-slate-600 mb-4">Mendaftarkan voucher diskon baru ke dalam sistem.</p>
+                        <h4 class="font-semibold text-slate-900 mb-2 text-sm uppercase tracking-wide">Request Body (JSON)</h4>
+                        <div class="bg-slate-50 rounded-lg border border-slate-200 p-4 font-mono text-sm overflow-x-auto">
+<pre class="text-slate-700">{
+  <span class="text-blue-600">"code"</span>: <span class="text-green-600">"LIBURAN2026"</span>, <span class="text-slate-400">// Kode Unik</span>
+  <span class="text-blue-600">"title"</span>: <span class="text-green-600">"Diskon Lebaran"</span>,
+  <span class="text-blue-600">"description"</span>: <span class="text-green-600">"string (opsional)"</span>,
+  <span class="text-blue-600">"discountType"</span>: <span class="text-green-600">"PERCENTAGE" | "FIXED"</span>,
+  <span class="text-blue-600">"discountValue"</span>: <span class="text-orange-500">25</span>, <span class="text-slate-400">// Max 100 jika tipe PERCENTAGE</span>
+  <span class="text-blue-600">"maxDiscount"</span>: <span class="text-orange-500">50000</span>, <span class="text-slate-400">// (opsional) Maksimal potongan diskon</span>
+  <span class="text-blue-600">"minPurchase"</span>: <span class="text-orange-500">200000</span>, <span class="text-slate-400">// (opsional) Minimal pembelian agar voucher valid</span>
+  <span class="text-blue-600">"quota"</span>: <span class="text-orange-500">100</span>, <span class="text-slate-400">// Kuota total pemakaian</span>
+  <span class="text-blue-600">"userLimit"</span>: <span class="text-orange-500">1</span>, <span class="text-slate-400">// Maksimal dipakai per orang (opsional, default 1)</span>
+  <span class="text-blue-600">"isActive"</span>: <span class="text-purple-600">true</span>,
+  <span class="text-blue-600">"startDate"</span>: <span class="text-green-600">"2026-05-10T00:00:00Z"</span>,
+  <span class="text-blue-600">"endDate"</span>: <span class="text-green-600">"2026-05-20T23:59:59Z"</span>
+}</pre>
+                        </div>
+                        <h4 class="font-semibold text-slate-900 mt-4 mb-2 text-sm uppercase tracking-wide">Response Sukses (201 Created)</h4>
+                        <div class="bg-slate-50 rounded-lg border border-slate-200 p-4 font-mono text-sm overflow-x-auto">
+<pre class="text-slate-700">{
+  <span class="text-blue-600">"success"</span>: <span class="text-purple-600">true</span>,
+  <span class="text-blue-600">"message"</span>: <span class="text-green-600">"Voucher berhasil dibuat"</span>,
+  <span class="text-blue-600">"data"</span>: {
+    <span class="text-blue-600">"id"</span>: <span class="text-green-600">"uuid-xxxx"</span>,
+    <span class="text-blue-600">"code"</span>: <span class="text-green-600">"LIBURAN2026"</span>,
+    <span class="text-slate-400">... (seluruh properti voucher)</span>
+  }
+}</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Get Available Vouchers -->
+                <div class="endpoint-card bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden border-GET">
+                    <div class="p-5 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+                        <div class="flex items-center gap-3">
+                            <span class="px-3 py-1 rounded text-sm font-bold method-GET">GET</span>
+                            <code class="text-slate-900 font-mono text-lg">/vouchers/available</code>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <p class="text-slate-600 mb-4">Melihat daftar seluruh voucher yang saat ini <strong>valid secara global</strong> (isActive=true, sudah dimulai, belum expired, dan kuota global masih ada).</p>
+                        <h4 class="font-semibold text-slate-900 mb-2 text-sm uppercase tracking-wide">Response Sukses (200 OK)</h4>
+                        <div class="bg-slate-50 rounded-lg border border-slate-200 p-4 font-mono text-sm overflow-x-auto">
+<pre class="text-slate-700">{
+  <span class="text-blue-600">"success"</span>: <span class="text-purple-600">true</span>,
+  <span class="text-blue-600">"statusCode"</span>: <span class="text-orange-500">200</span>,
+  <span class="text-blue-600">"message"</span>: <span class="text-green-600">"Berhasil mendapatkan voucher yang tersedia"</span>,
+  <span class="text-blue-600">"metadata"</span>: {
+    <span class="text-blue-600">"count"</span>: <span class="text-orange-500">5</span>
+  },
+  <span class="text-blue-600">"data"</span>: [
+    {
+      <span class="text-blue-600">"id"</span>: <span class="text-green-600">"uuid-xxxx"</span>,
+      <span class="text-blue-600">"code"</span>: <span class="text-green-600">"HEMAT50"</span>,
+      <span class="text-blue-600">"quota"</span>: <span class="text-orange-500">100</span>,
+      <span class="text-blue-600">"usedCount"</span>: <span class="text-orange-500">12</span>,
+      <span class="text-slate-400">... (seluruh properti voucher)</span>
+    }
+  ]
+}</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Get Available Vouchers For Me -->
+                <div class="endpoint-card bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden border-GET">
+                    <div class="p-5 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+                        <div class="flex items-center gap-3">
+                            <span class="px-3 py-1 rounded text-sm font-bold method-GET">GET</span>
+                            <code class="text-slate-900 font-mono text-lg">/vouchers/available-for-me</code>
+                        </div>
+                        <span class="bg-purple-100 text-purple-800 text-xs font-semibold px-2.5 py-0.5 rounded flex items-center gap-1"><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg> Auth Required</span>
+                    </div>
+                    <div class="p-5">
+                        <p class="text-slate-600 mb-4">Melihat daftar voucher valid <strong>khusus untuk user yang login</strong>. Jika kuota <code>userLimit</code> milik user tersebut sudah penuh untuk suatu voucher, maka voucher itu tidak akan dimunculkan.</p>
+                        <h4 class="font-semibold text-slate-900 mb-2 text-sm uppercase tracking-wide">Response Sukses (200 OK)</h4>
+                        <div class="bg-slate-50 rounded-lg border border-slate-200 p-4 font-mono text-sm overflow-x-auto">
+<pre class="text-slate-700">{
+  <span class="text-blue-600">"success"</span>: <span class="text-purple-600">true</span>,
+  <span class="text-blue-600">"statusCode"</span>: <span class="text-orange-500">200</span>,
+  <span class="text-blue-600">"message"</span>: <span class="text-green-600">"Berhasil mendapatkan voucher yang tersedia untuk Anda"</span>,
+  <span class="text-blue-600">"metadata"</span>: {
+    <span class="text-blue-600">"count"</span>: <span class="text-orange-500">3</span>
+  },
+  <span class="text-blue-600">"data"</span>: [
+    {
+      <span class="text-blue-600">"id"</span>: <span class="text-green-600">"uuid-xxxx"</span>,
+      <span class="text-blue-600">"code"</span>: <span class="text-green-600">"HEMAT50"</span>,
+      <span class="text-slate-400">... (seluruh properti voucher)</span>
+    }
+  ]
+}</pre>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Get Voucher Usages -->
+                <div class="endpoint-card bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden border-GET">
+                    <div class="p-5 border-b border-slate-100 flex flex-wrap justify-between items-center bg-slate-50/50 gap-2">
+                        <div class="flex items-center gap-3">
+                            <span class="px-3 py-1 rounded text-sm font-bold method-GET">GET</span>
+                            <code class="text-slate-900 font-mono text-lg">/vouchers/:id/usages</code>
+                        </div>
+                        <div class="flex gap-2">
+                            <span class="bg-purple-100 text-purple-800 text-xs font-semibold px-2.5 py-0.5 rounded flex items-center gap-1"><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg> Auth Required</span>
+                            <span class="bg-red-100 text-red-800 text-xs font-semibold px-2.5 py-0.5 rounded flex items-center gap-1">Admin Only</span>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <p class="text-slate-600 mb-2">Mendapatkan histori penggunaan untuk suatu voucher tertentu. Endpoint ini akan mereturn array yang memuat informasi user, email, booking code, nama package, dan tanggal voucher digunakan.</p>
+                        <p class="text-sm text-slate-500 mb-4"><strong>Path Parameter:</strong> <code class="bg-slate-100 px-1 rounded text-pink-600">id</code> - ID voucher (UUID).</p>
+                        <h4 class="font-semibold text-slate-900 mb-2 text-sm uppercase tracking-wide">Response Sukses (200 OK)</h4>
+                        <div class="bg-slate-50 rounded-lg border border-slate-200 p-4 font-mono text-sm overflow-x-auto">
+<pre class="text-slate-700">{
+  <span class="text-blue-600">"success"</span>: <span class="text-purple-600">true</span>,
+  <span class="text-blue-600">"statusCode"</span>: <span class="text-orange-500">200</span>,
+  <span class="text-blue-600">"message"</span>: <span class="text-green-600">"Berhasil mendapatkan riwayat penggunaan voucher"</span>,
+  <span class="text-blue-600">"metadata"</span>: {
+    <span class="text-blue-600">"count"</span>: <span class="text-orange-500">1</span>
+  },
+  <span class="text-blue-600">"data"</span>: [
+    {
+      <span class="text-blue-600">"id"</span>: <span class="text-green-600">"usage-uuid-xxx"</span>,
+      <span class="text-blue-600">"usedAt"</span>: <span class="text-green-600">"2026-05-15T12:00:00.000Z"</span>,
+      <span class="text-blue-600">"user"</span>: {
+        <span class="text-blue-600">"name"</span>: <span class="text-green-600">"Arief Rahman"</span>,
+        <span class="text-blue-600">"email"</span>: <span class="text-green-600">"arief@example.com"</span>
+      },
+      <span class="text-blue-600">"booking"</span>: {
+        <span class="text-blue-600">"bookingCode"</span>: <span class="text-green-600">"TRX-ABCD"</span>,
+        <span class="text-blue-600">"packageName"</span>: <span class="text-green-600">"Paket Liburan Bali 3H2M"</span>
+      }
+    }
+  ]
+}</pre>
+                        </div>
                     </div>
                 </div>
             </section>

@@ -7,7 +7,8 @@ import { NotFoundException, ForbiddenException } from '@nestjs/common';
 import { MidtransService } from '../midtrans/midtrans.service';
 import { metadata } from 'reflect-metadata/no-conflict';
 import { nanoid } from 'nanoid';
-
+import { VoucherHelper } from '../vouchers/helpers/voucher.helper';
+import { BadRequestException } from '@nestjs/common';
 @Injectable()
 export class BookingService {
   constructor(
@@ -17,53 +18,105 @@ export class BookingService {
 
   async create(
     userId: number,
-    // name: string,
-    // email: string,
     createBookingDto: CreateBookingDto,
   ) {
-    // ambil data package
-    const paket = await this.prisma.package.findUnique({
-      where: { id: createBookingDto.packageId },
+    const { packageId, quantity, date, voucherCode } = createBookingDto;
+
+    // Gunakan Prisma transaction untuk atomic operation (Booking + Voucher Usage)
+    return this.prisma.$transaction(async (tx) => {
+      // 1. Ambil data package
+      const paket = await tx.package.findUnique({
+        where: { id: packageId },
+      });
+
+      if (!paket) {
+        throw new NotFoundException('Paket tidak ditemukan');
+      }
+
+      // 2. Hitung harga awal
+      const originalPrice = paket.price * quantity;
+      let finalPrice = originalPrice;
+      let discountAmount = 0;
+      let appliedVoucherId: string | null = null;
+
+      // 3. Proses voucher jika user memasukkan voucherCode
+      if (voucherCode) {
+        const voucher = await tx.voucher.findUnique({
+          where: { code: voucherCode },
+        });
+
+        if (!voucher) {
+          throw new NotFoundException('Voucher tidak ditemukan');
+        }
+
+        const userUsages = await tx.voucherUsage.findMany({
+          where: { voucherId: voucher.id, userId },
+        });
+
+        // Validasi ketersediaan voucher. Akan melempar Exception (Opsi A) jika gagal.
+        VoucherHelper.validateVoucherAvailability(voucher, userUsages, originalPrice);
+
+        // Hitung diskon
+        discountAmount = VoucherHelper.calculateDiscount(voucher, originalPrice);
+        finalPrice = originalPrice - discountAmount;
+        if (finalPrice < 0) finalPrice = 0;
+
+        appliedVoucherId = voucher.id;
+
+        // Tambah counter pemakaian voucher
+        await tx.voucher.update({
+          where: { id: voucher.id },
+          data: { usedCount: { increment: 1 } },
+        });
+      }
+
+      // 4. Generate booking code
+      const bookingCode = `TRX-${nanoid(4).toUpperCase()}`;
+
+      // 5. Simpan booking ke database dengan harga final
+      const booking = await tx.booking.create({
+        data: {
+          bookingCode: bookingCode,
+          userId: userId,
+          packageId: packageId,
+          date: new Date(date),
+          quantity: quantity,
+          totalPrice: finalPrice,
+          status: 'PENDING',
+        },
+      });
+
+      // 6. Jika pakai voucher, simpan riwayat penggunaan (VoucherUsage)
+      if (appliedVoucherId) {
+        await tx.voucherUsage.create({
+          data: {
+            voucherId: appliedVoucherId,
+            userId: userId,
+            bookingId: booking.id,
+          },
+        });
+      }
+
+      // 7. PANGGIL MIDTRANS dengan finalPrice
+      // Jika finalPrice = 0, secara ideal langsung auto PENDING/PAID tanpa payment gateway,
+      // tetapi untuk saat ini asumsikan kita bypass ke midtrans.
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      const transaction: { token: string; redirect_url: string } =
+        await this.midtransService.createTransaction(
+          `ORDER-${booking.id}`,
+          finalPrice,
+          paket.name,
+        );
+
+      return {
+        success: true,
+        message: voucherCode ? 'Booking berhasil dibuat dengan voucher' : 'Booking berhasil dibuat',
+        data: booking,
+        discount: discountAmount,
+        snapToken: transaction.token,
+        redirectUrl: transaction.redirect_url,
+      };
     });
-
-    if (!paket) {
-      throw new NotFoundException('Paket tidak ditemukan');
-    }
-
-    // hitung total harga
-    const totalPrice = paket.price * createBookingDto.quantity;
-
-    const bookingCode = `TRX-${nanoid(4).toUpperCase()}`;
-
-    // simpan booking
-    const booking = await this.prisma.booking.create({
-      data: {
-        bookingCode: bookingCode,
-        userId: userId,
-        packageId: createBookingDto.packageId,
-        date: new Date(createBookingDto.date),
-        quantity: createBookingDto.quantity,
-        totalPrice,
-        status: 'PENDING',
-      },
-    });
-
-    // PANGGIL MIDTRANS
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const transaction: { token: string; redirect_url: string } =
-      await this.midtransService.createTransaction(
-        `ORDER-${booking.id}`,
-        totalPrice,
-        paket.name,
-      );
-
-    return {
-      success: true,
-      message: 'Booking berhasil dibuat',
-      data: booking,
-      snapToken: transaction.token,
-      redirectUrl: transaction.redirect_url,
-    };
   }
 
   async findAll() {

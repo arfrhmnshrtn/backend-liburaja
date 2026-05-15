@@ -5,4 +5,5 @@ export class CreateBookingDto {
   date: Date;
   quantity: number;
   totalPrice: number;
+  voucherCode?: string;
 }

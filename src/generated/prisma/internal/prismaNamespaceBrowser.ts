@@ -55,7 +55,9 @@ export const ModelName = {
   Package: 'Package',
   Booking: 'Booking',
   Payment: 'Payment',
-  Bookmark: 'Bookmark'
+  Bookmark: 'Bookmark',
+  Voucher: 'Voucher',
+  VoucherUsage: 'VoucherUsage'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -133,6 +135,39 @@ export const BookmarkScalarFieldEnum = {
 } as const
 
 export type BookmarkScalarFieldEnum = (typeof BookmarkScalarFieldEnum)[keyof typeof BookmarkScalarFieldEnum]
+
+
+export const VoucherScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  title: 'title',
+  description: 'description',
+  discountType: 'discountType',
+  discountValue: 'discountValue',
+  maxDiscount: 'maxDiscount',
+  minPurchase: 'minPurchase',
+  quota: 'quota',
+  usedCount: 'usedCount',
+  userLimit: 'userLimit',
+  isActive: 'isActive',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type VoucherScalarFieldEnum = (typeof VoucherScalarFieldEnum)[keyof typeof VoucherScalarFieldEnum]
+
+
+export const VoucherUsageScalarFieldEnum = {
+  id: 'id',
+  voucherId: 'voucherId',
+  userId: 'userId',
+  bookingId: 'bookingId',
+  usedAt: 'usedAt'
+} as const
+
+export type VoucherUsageScalarFieldEnum = (typeof VoucherUsageScalarFieldEnum)[keyof typeof VoucherUsageScalarFieldEnum]
 
 
 export const SortOrder = {

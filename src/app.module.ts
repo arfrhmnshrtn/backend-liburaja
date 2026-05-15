@@ -7,6 +7,7 @@ import { PackagesModule } from './package/packages.module';
 import { BookingModule } from './booking/booking.module';
 import { PaymentsModule } from './payments/payments.module';
 import { BookmarksModule } from './bookmarks/bookmarks.module';
+import { VouchersModule } from './vouchers/vouchers.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { BookmarksModule } from './bookmarks/bookmarks.module';
     BookingModule,
     PaymentsModule,
     BookmarksModule,
+    VouchersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

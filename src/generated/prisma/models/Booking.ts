@@ -267,6 +267,7 @@ export type BookingWhereInput = {
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   package?: Prisma.XOR<Prisma.PackageScalarRelationFilter, Prisma.PackageWhereInput>
   payment?: Prisma.XOR<Prisma.PaymentNullableScalarRelationFilter, Prisma.PaymentWhereInput> | null
+  voucherUsage?: Prisma.XOR<Prisma.VoucherUsageNullableScalarRelationFilter, Prisma.VoucherUsageWhereInput> | null
 }
 
 export type BookingOrderByWithRelationInput = {
@@ -282,6 +283,7 @@ export type BookingOrderByWithRelationInput = {
   user?: Prisma.UserOrderByWithRelationInput
   package?: Prisma.PackageOrderByWithRelationInput
   payment?: Prisma.PaymentOrderByWithRelationInput
+  voucherUsage?: Prisma.VoucherUsageOrderByWithRelationInput
 }
 
 export type BookingWhereUniqueInput = Prisma.AtLeast<{
@@ -300,6 +302,7 @@ export type BookingWhereUniqueInput = Prisma.AtLeast<{
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   package?: Prisma.XOR<Prisma.PackageScalarRelationFilter, Prisma.PackageWhereInput>
   payment?: Prisma.XOR<Prisma.PaymentNullableScalarRelationFilter, Prisma.PaymentWhereInput> | null
+  voucherUsage?: Prisma.XOR<Prisma.VoucherUsageNullableScalarRelationFilter, Prisma.VoucherUsageWhereInput> | null
 }, "id" | "bookingCode">
 
 export type BookingOrderByWithAggregationInput = {
@@ -344,6 +347,7 @@ export type BookingCreateInput = {
   user: Prisma.UserCreateNestedOneWithoutBookingsInput
   package: Prisma.PackageCreateNestedOneWithoutBookingsInput
   payment?: Prisma.PaymentCreateNestedOneWithoutBookingInput
+  voucherUsage?: Prisma.VoucherUsageCreateNestedOneWithoutBookingInput
 }
 
 export type BookingUncheckedCreateInput = {
@@ -357,6 +361,7 @@ export type BookingUncheckedCreateInput = {
   status?: $Enums.BookingStatus
   createdAt?: Date | string
   payment?: Prisma.PaymentUncheckedCreateNestedOneWithoutBookingInput
+  voucherUsage?: Prisma.VoucherUsageUncheckedCreateNestedOneWithoutBookingInput
 }
 
 export type BookingUpdateInput = {
@@ -369,6 +374,7 @@ export type BookingUpdateInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutBookingsNestedInput
   package?: Prisma.PackageUpdateOneRequiredWithoutBookingsNestedInput
   payment?: Prisma.PaymentUpdateOneWithoutBookingNestedInput
+  voucherUsage?: Prisma.VoucherUsageUpdateOneWithoutBookingNestedInput
 }
 
 export type BookingUncheckedUpdateInput = {
@@ -382,6 +388,7 @@ export type BookingUncheckedUpdateInput = {
   status?: Prisma.EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   payment?: Prisma.PaymentUncheckedUpdateOneWithoutBookingNestedInput
+  voucherUsage?: Prisma.VoucherUsageUncheckedUpdateOneWithoutBookingNestedInput
 }
 
 export type BookingCreateManyInput = {
@@ -590,6 +597,20 @@ export type BookingUpdateOneRequiredWithoutPaymentNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.BookingUpdateToOneWithWhereWithoutPaymentInput, Prisma.BookingUpdateWithoutPaymentInput>, Prisma.BookingUncheckedUpdateWithoutPaymentInput>
 }
 
+export type BookingCreateNestedOneWithoutVoucherUsageInput = {
+  create?: Prisma.XOR<Prisma.BookingCreateWithoutVoucherUsageInput, Prisma.BookingUncheckedCreateWithoutVoucherUsageInput>
+  connectOrCreate?: Prisma.BookingCreateOrConnectWithoutVoucherUsageInput
+  connect?: Prisma.BookingWhereUniqueInput
+}
+
+export type BookingUpdateOneRequiredWithoutVoucherUsageNestedInput = {
+  create?: Prisma.XOR<Prisma.BookingCreateWithoutVoucherUsageInput, Prisma.BookingUncheckedCreateWithoutVoucherUsageInput>
+  connectOrCreate?: Prisma.BookingCreateOrConnectWithoutVoucherUsageInput
+  upsert?: Prisma.BookingUpsertWithoutVoucherUsageInput
+  connect?: Prisma.BookingWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.BookingUpdateToOneWithWhereWithoutVoucherUsageInput, Prisma.BookingUpdateWithoutVoucherUsageInput>, Prisma.BookingUncheckedUpdateWithoutVoucherUsageInput>
+}
+
 export type BookingCreateWithoutUserInput = {
   bookingCode?: string | null
   date: Date | string
@@ -599,6 +620,7 @@ export type BookingCreateWithoutUserInput = {
   createdAt?: Date | string
   package: Prisma.PackageCreateNestedOneWithoutBookingsInput
   payment?: Prisma.PaymentCreateNestedOneWithoutBookingInput
+  voucherUsage?: Prisma.VoucherUsageCreateNestedOneWithoutBookingInput
 }
 
 export type BookingUncheckedCreateWithoutUserInput = {
@@ -611,6 +633,7 @@ export type BookingUncheckedCreateWithoutUserInput = {
   status?: $Enums.BookingStatus
   createdAt?: Date | string
   payment?: Prisma.PaymentUncheckedCreateNestedOneWithoutBookingInput
+  voucherUsage?: Prisma.VoucherUsageUncheckedCreateNestedOneWithoutBookingInput
 }
 
 export type BookingCreateOrConnectWithoutUserInput = {
@@ -663,6 +686,7 @@ export type BookingCreateWithoutPackageInput = {
   createdAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutBookingsInput
   payment?: Prisma.PaymentCreateNestedOneWithoutBookingInput
+  voucherUsage?: Prisma.VoucherUsageCreateNestedOneWithoutBookingInput
 }
 
 export type BookingUncheckedCreateWithoutPackageInput = {
@@ -675,6 +699,7 @@ export type BookingUncheckedCreateWithoutPackageInput = {
   status?: $Enums.BookingStatus
   createdAt?: Date | string
   payment?: Prisma.PaymentUncheckedCreateNestedOneWithoutBookingInput
+  voucherUsage?: Prisma.VoucherUsageUncheckedCreateNestedOneWithoutBookingInput
 }
 
 export type BookingCreateOrConnectWithoutPackageInput = {
@@ -712,6 +737,7 @@ export type BookingCreateWithoutPaymentInput = {
   createdAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutBookingsInput
   package: Prisma.PackageCreateNestedOneWithoutBookingsInput
+  voucherUsage?: Prisma.VoucherUsageCreateNestedOneWithoutBookingInput
 }
 
 export type BookingUncheckedCreateWithoutPaymentInput = {
@@ -724,6 +750,7 @@ export type BookingUncheckedCreateWithoutPaymentInput = {
   totalPrice: number
   status?: $Enums.BookingStatus
   createdAt?: Date | string
+  voucherUsage?: Prisma.VoucherUsageUncheckedCreateNestedOneWithoutBookingInput
 }
 
 export type BookingCreateOrConnectWithoutPaymentInput = {
@@ -751,6 +778,7 @@ export type BookingUpdateWithoutPaymentInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutBookingsNestedInput
   package?: Prisma.PackageUpdateOneRequiredWithoutBookingsNestedInput
+  voucherUsage?: Prisma.VoucherUsageUpdateOneWithoutBookingNestedInput
 }
 
 export type BookingUncheckedUpdateWithoutPaymentInput = {
@@ -763,6 +791,73 @@ export type BookingUncheckedUpdateWithoutPaymentInput = {
   totalPrice?: Prisma.IntFieldUpdateOperationsInput | number
   status?: Prisma.EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  voucherUsage?: Prisma.VoucherUsageUncheckedUpdateOneWithoutBookingNestedInput
+}
+
+export type BookingCreateWithoutVoucherUsageInput = {
+  bookingCode?: string | null
+  date: Date | string
+  quantity: number
+  totalPrice: number
+  status?: $Enums.BookingStatus
+  createdAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutBookingsInput
+  package: Prisma.PackageCreateNestedOneWithoutBookingsInput
+  payment?: Prisma.PaymentCreateNestedOneWithoutBookingInput
+}
+
+export type BookingUncheckedCreateWithoutVoucherUsageInput = {
+  id?: number
+  userId: number
+  bookingCode?: string | null
+  packageId: number
+  date: Date | string
+  quantity: number
+  totalPrice: number
+  status?: $Enums.BookingStatus
+  createdAt?: Date | string
+  payment?: Prisma.PaymentUncheckedCreateNestedOneWithoutBookingInput
+}
+
+export type BookingCreateOrConnectWithoutVoucherUsageInput = {
+  where: Prisma.BookingWhereUniqueInput
+  create: Prisma.XOR<Prisma.BookingCreateWithoutVoucherUsageInput, Prisma.BookingUncheckedCreateWithoutVoucherUsageInput>
+}
+
+export type BookingUpsertWithoutVoucherUsageInput = {
+  update: Prisma.XOR<Prisma.BookingUpdateWithoutVoucherUsageInput, Prisma.BookingUncheckedUpdateWithoutVoucherUsageInput>
+  create: Prisma.XOR<Prisma.BookingCreateWithoutVoucherUsageInput, Prisma.BookingUncheckedCreateWithoutVoucherUsageInput>
+  where?: Prisma.BookingWhereInput
+}
+
+export type BookingUpdateToOneWithWhereWithoutVoucherUsageInput = {
+  where?: Prisma.BookingWhereInput
+  data: Prisma.XOR<Prisma.BookingUpdateWithoutVoucherUsageInput, Prisma.BookingUncheckedUpdateWithoutVoucherUsageInput>
+}
+
+export type BookingUpdateWithoutVoucherUsageInput = {
+  bookingCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  quantity?: Prisma.IntFieldUpdateOperationsInput | number
+  totalPrice?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutBookingsNestedInput
+  package?: Prisma.PackageUpdateOneRequiredWithoutBookingsNestedInput
+  payment?: Prisma.PaymentUpdateOneWithoutBookingNestedInput
+}
+
+export type BookingUncheckedUpdateWithoutVoucherUsageInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  userId?: Prisma.IntFieldUpdateOperationsInput | number
+  bookingCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  packageId?: Prisma.IntFieldUpdateOperationsInput | number
+  date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  quantity?: Prisma.IntFieldUpdateOperationsInput | number
+  totalPrice?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  payment?: Prisma.PaymentUncheckedUpdateOneWithoutBookingNestedInput
 }
 
 export type BookingCreateManyUserInput = {
@@ -785,6 +880,7 @@ export type BookingUpdateWithoutUserInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   package?: Prisma.PackageUpdateOneRequiredWithoutBookingsNestedInput
   payment?: Prisma.PaymentUpdateOneWithoutBookingNestedInput
+  voucherUsage?: Prisma.VoucherUsageUpdateOneWithoutBookingNestedInput
 }
 
 export type BookingUncheckedUpdateWithoutUserInput = {
@@ -797,6 +893,7 @@ export type BookingUncheckedUpdateWithoutUserInput = {
   status?: Prisma.EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   payment?: Prisma.PaymentUncheckedUpdateOneWithoutBookingNestedInput
+  voucherUsage?: Prisma.VoucherUsageUncheckedUpdateOneWithoutBookingNestedInput
 }
 
 export type BookingUncheckedUpdateManyWithoutUserInput = {
@@ -830,6 +927,7 @@ export type BookingUpdateWithoutPackageInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutBookingsNestedInput
   payment?: Prisma.PaymentUpdateOneWithoutBookingNestedInput
+  voucherUsage?: Prisma.VoucherUsageUpdateOneWithoutBookingNestedInput
 }
 
 export type BookingUncheckedUpdateWithoutPackageInput = {
@@ -842,6 +940,7 @@ export type BookingUncheckedUpdateWithoutPackageInput = {
   status?: Prisma.EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   payment?: Prisma.PaymentUncheckedUpdateOneWithoutBookingNestedInput
+  voucherUsage?: Prisma.VoucherUsageUncheckedUpdateOneWithoutBookingNestedInput
 }
 
 export type BookingUncheckedUpdateManyWithoutPackageInput = {
@@ -870,6 +969,7 @@ export type BookingSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   package?: boolean | Prisma.PackageDefaultArgs<ExtArgs>
   payment?: boolean | Prisma.Booking$paymentArgs<ExtArgs>
+  voucherUsage?: boolean | Prisma.Booking$voucherUsageArgs<ExtArgs>
 }, ExtArgs["result"]["booking"]>
 
 export type BookingSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -917,6 +1017,7 @@ export type BookingInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   package?: boolean | Prisma.PackageDefaultArgs<ExtArgs>
   payment?: boolean | Prisma.Booking$paymentArgs<ExtArgs>
+  voucherUsage?: boolean | Prisma.Booking$voucherUsageArgs<ExtArgs>
 }
 export type BookingIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -933,6 +1034,7 @@ export type $BookingPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     user: Prisma.$UserPayload<ExtArgs>
     package: Prisma.$PackagePayload<ExtArgs>
     payment: Prisma.$PaymentPayload<ExtArgs> | null
+    voucherUsage: Prisma.$VoucherUsagePayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1341,6 +1443,7 @@ export interface Prisma__BookingClient<T, Null = never, ExtArgs extends runtime.
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   package<T extends Prisma.PackageDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PackageDefaultArgs<ExtArgs>>): Prisma.Prisma__PackageClient<runtime.Types.Result.GetResult<Prisma.$PackagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   payment<T extends Prisma.Booking$paymentArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Booking$paymentArgs<ExtArgs>>): Prisma.Prisma__PaymentClient<runtime.Types.Result.GetResult<Prisma.$PaymentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  voucherUsage<T extends Prisma.Booking$voucherUsageArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Booking$voucherUsageArgs<ExtArgs>>): Prisma.Prisma__VoucherUsageClient<runtime.Types.Result.GetResult<Prisma.$VoucherUsagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1796,6 +1899,25 @@ export type Booking$paymentArgs<ExtArgs extends runtime.Types.Extensions.Interna
    */
   include?: Prisma.PaymentInclude<ExtArgs> | null
   where?: Prisma.PaymentWhereInput
+}
+
+/**
+ * Booking.voucherUsage
+ */
+export type Booking$voucherUsageArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the VoucherUsage
+   */
+  select?: Prisma.VoucherUsageSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the VoucherUsage
+   */
+  omit?: Prisma.VoucherUsageOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VoucherUsageInclude<ExtArgs> | null
+  where?: Prisma.VoucherUsageWhereInput
 }
 
 /**
