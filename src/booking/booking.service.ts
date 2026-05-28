@@ -110,7 +110,7 @@ export class BookingService {
     }
 
     // 🔹 hanya boleh hapus jika masih PENDING
-    if (booking.status !== 'PENDING' ) {
+    if (booking.status !== 'PENDING') {
       return {
         success: false,
         message: 'Booking tidak bisa dibatalkan!',
